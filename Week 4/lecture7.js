@@ -9,7 +9,7 @@
 ////*****************************
 // let i = 5
 // const j = 7
-// // j = 6
+// j = 6
 // var k = 10
 // console.log(i,j,k)
 
@@ -80,6 +80,16 @@
 //* (they are equal if the contain the same set of key-value pairs *
 //* even if they aren't declared in the same order)                *
 //******************************************************************
+
+var l = 6;
+var u = 6;
+if(l === u){
+    console.log("Same")
+}
+else{
+    console.log("different")
+}
+console.log("equal === ", l === u);
 
 ////************************
 //// Reference Types & const
