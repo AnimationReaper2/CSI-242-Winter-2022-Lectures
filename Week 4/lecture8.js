@@ -14,10 +14,13 @@
 ////*****************************
 // {
 //     let i = 5
+//     {
 //     console.log(i)
+//     }
+//     i = 6
 // }
 // console.log(i) // fails
-//
+
 
 ////*****************************
 //// const: Block Scoped, static
@@ -25,6 +28,7 @@
 // {
 //     const j = 5
 //     console.log(j)
+//     // j = 6 // fails
 // }
 // console.log(j) // fails
 
@@ -48,12 +52,24 @@
 //// blank : global(?) scoped, dynamic
 ////**********************************
 
+////**********************************************************************************************
+////*********************************************************************************************
+//// Reminder: give them the passcode: Hint Thales
+////**********************************************************************************************
+////**********************************************************************************************
 
-// function example(){
-//     k = 5
-// }
-// example()
-// console.log(k)
+var k = 7
+{
+    function getLength(myName){
+        myName = "Matty"
+        console.log(myName)
+        // a = 5
+    }
+}
+cart = {ipod: {price: 5}}
+myName = "Matthew"
+getLength(myName)
+console.log(myName)
 
 // This here is spooky we do not like this.
 
@@ -65,10 +81,11 @@
 //         x = 7
 //         y = 7
 //     }
-//     example2()
 //     console.log(x,y)
+//     return example2
 // }
-// example1()
+// example2 = example1()
+// example2()
 // console.log(x,y)
 
 ////***************************************************************
@@ -96,16 +113,17 @@
 //// window. : global scoped (basically), dynamic
 ////*********************************************
 
-// var x = 5
-// var y = 5
+// let x = 5
+// let y = 5
 // function example1(){
 //     var x = 6
 //     function example2(){
+//         console.log(x)
 //         window.x = 7
 //         y = 7
 //     }
-//     example2()
 //     console.log(x,y)
+//     example2()
 // }
 // example1()
 // console.log(x,y)

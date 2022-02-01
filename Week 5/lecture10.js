@@ -1,187 +1,245 @@
-////*****************
-////*****************
-//// Lecture  9: this
-////*****************
-////*****************
+////*************************************************************************
+////*************************************************************************
+//// Lecture  10: Asynchronous Javascript. Callbacks, Promises, Async, & Await
+////*************************************************************************
+////*************************************************************************
 
-////************************************
-//// The Mystery of the Undefined Fluffy
-////************************************
 
-// class Cat {
-//     constructor(firstName) {
-//         this.firstName = firstName;
+// Generally speaking: There is only one JS thread and that can be a bit yikes at times.
+// window.addEventListener('load', (event) => {
+//     a = 0
+//     setInterval(()=>{
+//         console.log("hi", a);
+//         a+=1;
+//     }, 1000)
+
+
+//     const btn = document.querySelector('button');
+//     btn.addEventListener('click', () => {
+//         alert('You clicked me!');
+//         let pElem = document.createElement('p');
+//         pElem.textContent = 'This is a newly-added paragraph.';
+//         document.body.appendChild(pElem);
+//     });
+// })
+
+// But with event listeners we've kind of seen that there can be two things going on "at the same time"
+// Or have we? What's going on?
+
+////**************
+// The Event Queue
+////**************
+
+// setTimeout(function() {
+//     console.log('World');
+// }, 0);
+  
+// console.log('Hello');
+
+
+// Three main types: user input, delayed code, and network events
+// We've already talked about user input stuff a lot,
+// And delayed code is funny/interesting but it's quirks 
+// would end up being distracting
+// Today we're going to focus primarily on the network events
+
+////**********
+//// Callbacks
+////**********
+// window.addEventListener('load', (event) => {
+//     const btn = document.querySelector('button');
+
+//     function displayImage(blob) {
+//         // A blob is a chunk of binary data returned 
+//         // in response to a XMLHttps Request
+//         let objectURL = URL.createObjectURL(blob);
+
+//         let image = document.createElement('img');
+//         image.src = objectURL;
+//         document.body.appendChild(image);
+//         console.log("appended")
 //     }
     
-//     dance(style) {
-//         console.log(`Meow, I am ${this.firstName}` +
-//         ` and I like to ${style}`);
-//         return `Meow, I am ${this.firstName}` +
-//         ` and I like to ${style}`;
+//     function loadAsset(url, type, callback) {
+//         // worth noting: this will not work for external assets
+//         // without additional work/tooling
+//         let xhr = new XMLHttpRequest();
+//         xhr.open('GET', url);
+//         xhr.responseType = type;
+    
+//         xhr.onload = function() {
+//             callback(xhr.response);
+//         };
+//         console.log("ready to send")
+//         xhr.send(); //this is the asynchronous part. It sets up an event listener
 //     }
-// }
-// let fluffy = new Cat("Fluffy");
-
-// fluffy.firstName;       // "Fluffy"
-// fluffy.dance("tango");  // works!
-
-
-// let fDance = fluffy.dance;
-// fDance("salsa"); //error???
-
-////********************************************
-//// Solving the Mystery: JavaScript "Functions"
-////********************************************
-// JS doesn't really have functions, everything is kinda a method
-
-// function whatIsThis() {
-//     console.log("this =", this);
-// }
-
-
-// let o = { myFunc: whatIsThis };
-// o.myFunc();  // get "this = o"
-
-// whatIsThis() // get "this" = window aka the global object
-
-// So what happened in the mystery is we called the dance method on nothing aka on the window object
-// This means that when in the dance function we were looking for window.firstName which doesn't exist
-
-// There are a few different solutions to this "this" problem
-// The obvious one is to only every call methods on objects
-// but because JS is hell and madness there are other ways too
-
-
-////***********************
-//// Call & Bind
-////***********************
-
-// let fDance = fluffy.dance;
-
-// // fDance.call(fluffy, "tango"); // call on fluffy, passing "tango" as arg
-// // whatIsThis.call(fluffy); 
-// // fDance("tango");       // error -- this isn't the cat
-
-// let betterDance = fDance.bind(fluffy);
-// betterDance("tango");  // ok -- bound so that `this` is Fluffy
-
-////***********************
-//// Bind for functions
-
-// function applySalesTax(taxRate, price) {
-//     console.log(this, taxRate, price)
-//     return price + price * taxRate;
-//   }
   
-// // "null" for "this" means it doesn't matter what "this" is
-// const applyWASalesTax = applySalesTax.bind(null, 0.065);
-// console.log(applyWASalesTax(50));  //53.25
+//     btn.addEventListener('click', () => {
+//         loadAsset('coffee.jpg', 'blob', displayImage);
+//         console.log("loaded")
+//     })
+// })
 
-// // This isn't exactly great though. As far as I can tell you can't bind later args while leaving initial args still available for input
-// // So we can't make an apply local sales tax to $50 function with bind
-// const applySalesTaxTo$50 = applySalesTax.bind(null, null, 50);
-// console.log(applySalesTaxTo$50("hi"))
+//********************Challenge************************
+// function printAll() { 
+//     printString("A", () => {
+//         printString("B", () => { 
+//             printString("C", () => {
+//             }) 
+//         }) 
+//     })}
+// printAll()
+//
+// // Write a printString function such that "A", "B", 
+// // and "C" are printed out in that order with a 1 
+// // second gap between each printing. (Use setTimeout)
+//*****************************************************
 
-// And anyway default args are defined elsewhere so idk
-// function applySalesTaxTo$50(taxRate, price = 50) {
-//     console.log(this, taxRate, price)
-//     return price + price * taxRate;
-// }
 
-////*************************************
-//// Examples where this becomes relevant
-////*************************************
+////*********
+//// Promises
+////*********
 // window.addEventListener('load', (event) => {
-//     myBtn = document.querySelector('#main-button');
-//     myBtn.addEventListener("click", fluffy.dance);
-//     myBtn.addEventListener("click", fluffy.dance.bind(fluffy));
-// })
+//     fetch('coffee.json').then(function(response) {
+//         return response.json();
+//       }).then(function(json) {
+//         let drinks = json;
+//         console.log(drinks)
+//       }).catch(function(err) {
+//         console.log('Fetch problem: ' + err.message);
+//     });
+    
+
+//     //How to get images via promises & reminder that this is async
+//     console.log ('Starting');
+//     let image;
+    
+//     fetch('coffee.jpg').then((response) => {
+//         console.log('It worked :)')
+//         return response.blob();
+//     }).then((myBlob) => {
+//         let objectURL = URL.createObjectURL(myBlob);
+//         image = document.createElement('img');
+//         image.src = objectURL;
+//         document.body.appendChild(image);
+//     }).catch((error) => {
+//         console.log('There has been a problem with your fetch operation: ' + error.message);
+//     }).finally(()=>{ console.log("this always runs")});
+    
+//     console.log ('All done!');
 
 
-// function popUp(msg) {
-//     console.log("Secret message is " + msg);
-// }
-  
-// function handleClick(evt) {
-//     let id = evt.target.id;
-  
-//     if (id === "a") popUp("Apple");
-//     else if (id === "b") popUp("Berry");
-//     else if (id === "c") popUp("Cherry");
-// }
-  
-// const get = document.getElementById.bind(document);
-  
-// window.addEventListener("load", ()=>{
-//     get('a').addEventListener("click", handleClick);
-//     get('b').addEventListener("click", handleClick);
-//     get('c').addEventListener("click", handleClick);
-// })
+//     // Making your own promises
+//     let timeoutPromise = new Promise((resolve, reject) => {
+//         setTimeout(() => {
+//             resolve('Success!');
+//         }, 2000);
+//     });
 
-// //Alternatively 
+//     timeoutPromise
+//     .then((message) => {
+//         alert(message);
+//     })
 
-
-// function popUp(msg) {
-//     console.log("Secret message is " + msg);
-// }
-  
-// const get = document.getElementById.bind(document);
-
-// window.addEventListener("load", ()=>{
-//     get('a').addEventListener("click", popUp.bind(null, "Apple"));
-//     get('b').addEventListener("click", popUp.bind(null, "Berry"));
-//     get('c').addEventListener("click", popUp.bind(null, "Cherry"));
+//     timeoutPromise.then(alert)
 // });
 
-////****************
-//// Arrow Functions
-////****************
-//// Arrow functions don’t make their own this
-
-// class Cat {
-//     constructor(name) {
-//         this.name = name;
-//     }
-  
-//     superGreet() {
-//         console.log(`#1: I am ${this.name}`);   // works, obvs
-    
-//         setTimeout(function () {
-//             console.log(`#2 I am ${this.name}`);  // ut oh
-//             // console.log(this === window)
-//             // it's because when the function is called it's being called on nothing aka window
-//         }, 500);
-    
-//         setTimeout(() => {
-//             console.log(`#3 I am ${this.name}`);  // yay!
-//             // arrow functions carry the "this" with them from whatever space they were defined in
-//         }, 1000);
-//     }
+//********************Challenge************************
+// function printAll() {
+//     printString("A").then(() => {  
+//        return printString("B") 
+//     }).then(() => {  
+//        return printString("C") 
+//     })
 // }
+// printAll()
+//
+// // Write a printString promise such that "A", "B", 
+// // and "C" are printed out in that order with a 1 
+// // second gap between each printing. 
+//*****************************************************
 
-// let kitty = new Cat("Kitty");
-// kitty.superGreet();
+////****************
+//// Async and Await
+////****************
+// window.addEventListener('load', (event) => {
+//     async function hello() { return "Hello" };
+//     hello().then(value => console.log(value));
 
 
-// thisArrow = ()=>{console.log("thisArrow:", this)}
-// {
-//     function hey(){
-//         console.log("hey",this)
-//         nestedArrow = ()=>{console.log("nestedArrow:", this)}
-//         thisArrow()
-//         nestedArrow()
+//     async function myFetch() {
+//         let response = await fetch('coffee.jpg');
+      
+//         if (!response.ok) {
+//           throw new Error(`HTTP error! status: ${response.status}`);
+//         }
+      
+//         let myBlob = await response.blob();
+      
+//         let objectURL = URL.createObjectURL(myBlob);
+//         let image = document.createElement('img');
+//         image.src = objectURL;
+//         document.body.appendChild(image);
+//       }
+      
+//       myFetch()
+//         .catch(e => {
+//           console.log('There has been a problem with your fetch operation: ' + e.message);
+//         });
+//     // This is pretty awesome the only real downside is that
+//     // it might encourage you to do things sequentially that
+//     // are better done in parallel
+
+//     function timeoutPromise(interval) {
+//         return new Promise((resolve, reject) => {
+//             setTimeout(function(){
+//                 resolve("done");
+//             }, interval);
+//         });
 //     };
-//     hey.call({"hi":"hi"});
+
+//     async function timeTest1() {
+//         await timeoutPromise(1000);
+//         await timeoutPromise(100);
+//         await timeoutPromise(10);
+//     }
+
+//     let startTime = Date.now();
+//     timeTest1()
+//         .then(() => {
+//             let finishTime = Date.now();
+//             let timeTaken = finishTime - startTime;
+//             console.log("sequential time: " + timeTaken+"ms");
+//         })
+
+//     async function timeTest2() {
+//         const timeoutPromise1 = timeoutPromise(1000);
+//         const timeoutPromise2 = timeoutPromise(100);
+//         const timeoutPromise3 = timeoutPromise(10);
+        
+//         await timeoutPromise1;
+//         await timeoutPromise2;
+//         await timeoutPromise3;
+//     }
+
+//     startTime = Date.now();
+//     timeTest2()
+//         .then(() => {
+//             let finishTime = Date.now();
+//             let timeTaken = finishTime - startTime;
+//             console.log("paralel time: " + timeTaken+"ms");
+//         })
+// });
+
+//********************Challenge************************
+// function printAll() {
+//     await printString("A")  
+//     await printString("B") 
+//     await printString("C") 
 // }
-// //Stressing here again arrow functions have this as the this in the environnement they were defined
-
-
-////**************
-//// Key Takeaways
-////**************
-/*  this is a reserved keyword whose value is determined 
-    only at the point of function execution.
-    If we aren’t calling a function ourselves and we’re 
-    letting JavaScript do that work for us (through a 
-    callback), we need to ensure JavaScript knows what 
-    our this context should be.*/
+// printAll()
+//
+// // Write an async printString function such 
+// // that "A", "B", and "C" are printed out in that 
+// // order with a 1 second gap between each printing. 
+//*****************************************************
