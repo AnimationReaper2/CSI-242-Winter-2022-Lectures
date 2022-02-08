@@ -1,57 +1,67 @@
-const { getRandomToy, add, getCartTotal } = require("./lecture11");
+var { getRandomToy, add, getCartTotal } = require("./lecture11");
 
-// test("add should return sum", function () {
-//     let sum = add(2, 3);
-//     expect(sum).toEqual(5);
-// });
+// ******
+// Expect
+// ******
 
-describe("add function", function () {
-
-    test("return sum", function () {
-        let sum = add(2, 3);
-        expect(sum).toEqual(5);
-    });
-  
-    test("return sum w/neg numbers", function () {
-        let sum = add(-2, 3);
-        expect(sum).toEqual(1);
-    });
+test("add should return sum", function () {
+    let sum = add(2, 3);
+    expect(sum).toEqual(5);
 });
 
-//Matchers
+// describe("add function", function () {
+
+//     test("return sum", function () {
+//         let sum = add(2, 3);
+//         expect(sum).toEqual(5);
+//     });
+  
+//     test("return sum w/neg numbers", function () {
+//         let sum = add(-2, 3);
+//         expect(sum).toEqual(1);
+//     });
+// });
+
+
+// ********
+// Matchers
+// ********
 
 // .toEqual(obj)  basically == but works on reference types too
 //     Has the same value (eg, different objects with same values match)
 // .toBe(obj)  basically ===
-//     Is the same object (eg, different objects with same values do not)
+//     Is the same object (eg, different objects with same values do not count)
 // .toContain(sought)
 //     Does object/array contain this item?
 // .not.
 //     Add before matcher to invert (eg expect("hi").not.toEqual("bye"))
 
 
-describe("matchers", function () {
-    test("toBe and toEqual are different", function () {
-      let nums = [1, 2, 3];
-      let newNums = nums.slice();
-      console.log(newNums)
+// describe("matchers", function () {
+//     test("toBe and toEqual are different", function () {
+//       let nums = [1, 2, 3];
+//       let newNums = nums.slice();
+//       console.log(newNums)
   
-      expect(nums).not.toBe(newNums);  // not the same reference!
-      expect(nums).toEqual(newNums);   // same values so we use toEqual
-    });
-  });
+//       expect(nums).not.toBe(newNums);  // not the same reference!
+//       expect(nums).toEqual(newNums);   // same values so we use toEqual
+//     });
+//   });
 
-//Any
 
-test("random toy", function () {
-  let toy = getRandomToy();
-  expect(toy).toEqual({
-    toy: {
-      name: expect.any(String),
-      price: 34.99,
-    },
-  });
-});
+// ***
+// Any
+// ***
+
+// test("random toy", function () {
+//   let toy = getRandomToy();
+//   expect(toy).toEqual({
+//     toy: {
+//       name: expect.any(String),
+//       price: 34.99,
+//     },
+//   });
+// });
 
 // Before and After Demo
 // getCartTotal(cart, discount=0)
@@ -99,3 +109,37 @@ describe("getCartTotal", function () {
 // For frequent setup/teardown:
 // beforeEach: run before each test starts
 // afterEach: run after each test finishes
+
+
+// run with --coverage flag
+
+// *********************************************
+// Test Driven Development: Red, Green, Refactor
+// *********************************************
+
+// Write tests first, they will fail
+// Only write the code needed to make the tests succeed
+// Then improve the code if it seems to need improving
+// Every time you change the code run all tests
+
+// Benefits of TDD
+// Writing tests first helps you understand what a function needs to do
+// Writing tests first can prevent you from making bugs in the first place
+// Writing tests first leads to higher-quality tests
+// If you write the tests after the code, you often write tests that pass
+// based on your memory of the implementation—rather than the requirements
+
+
+// *******
+// Mocking
+// *******
+
+// AJAX requests
+// Reading/Writing to files
+// Impure functions like Math.random
+
+// test("check picking last", function () {
+//     global.Math.random = jest.fn();
+//     global.Math.random.mockReturnValue(0.99);
+//     expect(getRandomToy().toy.name).toEqual("iPad");
+// });

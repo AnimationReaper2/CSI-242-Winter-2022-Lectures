@@ -6,8 +6,9 @@
 
 
 // Generally speaking: There is only one JS thread and that can be a bit yikes at times.
+
 // window.addEventListener('load', (event) => {
-//     a = 0
+//     let a = 0;
 //     setInterval(()=>{
 //         console.log("hi", a);
 //         a+=1;
@@ -37,6 +38,8 @@
 // console.log('Hello');
 
 
+
+
 // Three main types: user input, delayed code, and network events
 // We've already talked about user input stuff a lot,
 // And delayed code is funny/interesting but it's quirks 
@@ -46,6 +49,8 @@
 ////**********
 //// Callbacks
 ////**********
+// rename variables to focus on point
+
 // window.addEventListener('load', (event) => {
 //     const btn = document.querySelector('button');
 
@@ -80,83 +85,129 @@
 //     })
 // })
 
+// Callbacks are functions (C) that are passed to other functions (A) so that the function A can call the callback function C at some point in the future
+
 //********************Challenge************************
 // function printAll() { 
 //     printString("A", () => {
 //         printString("B", () => { 
-//             printString("C", () => {
-//             }) 
+//             printString("C", () => {}) 
 //         }) 
-//     })}
+//     })
+// }
 // printAll()
-//
-// // Write a printString function such that "A", "B", 
-// // and "C" are printed out in that order with a 1 
-// // second gap between each printing. (Use setTimeout)
+
+// function printString(value, callback){
+//     console.log("going in:", value);
+//     callback();
+//     console.log("going out:", value);
+// }
+
+
+// first thing is we call printString ("A" and this function)
+//     print(going in A)
+//     call printString("B" and this function)
+//         print(going in B)
+//         call prtintSting("C" and the empty function)
+//             print(going in C)
+//             Call the empty function
+//             print(going out C)
+//         console.log(going out B)
+//     print(going out C)
+
+
+// Write a printString function such that "A", "B", 
+// and "C" 
 //*****************************************************
 
 
 ////*********
 //// Promises
 ////*********
-// window.addEventListener('load', (event) => {
-//     fetch('coffee.json').then(function(response) {
-//         return response.json();
-//       }).then(function(json) {
-//         let drinks = json;
-//         console.log(drinks)
-//       }).catch(function(err) {
-//         console.log('Fetch problem: ' + err.message);
-//     });
+window.addEventListener('load', (event) => {
+    // fetch('coffee.json').then(function(response) {
+    //     return response.json();
+    //   }).then(function(json) {
+    //     let drinks = json;
+    //     console.log(drinks)
+    //   }).catch(function(err) {
+    //     console.log('Fetch problem: ' + err.message);
+    // });
     
 
-//     //How to get images via promises & reminder that this is async
-//     console.log ('Starting');
-//     let image;
+    // //How to get images via promises & reminder that this is async
+    // console.log ('Starting');
+    // let image;
     
-//     fetch('coffee.jpg').then((response) => {
-//         console.log('It worked :)')
-//         return response.blob();
-//     }).then((myBlob) => {
-//         let objectURL = URL.createObjectURL(myBlob);
-//         image = document.createElement('img');
-//         image.src = objectURL;
-//         document.body.appendChild(image);
-//     }).catch((error) => {
-//         console.log('There has been a problem with your fetch operation: ' + error.message);
-//     }).finally(()=>{ console.log("this always runs")});
+    // fetch('coffee.jpg').then((response) => {
+    //     console.log('It worked :)')
+    //     return response.blob();
+    // }).then((myBlob) => {
+    //     let objectURL = URL.createObjectURL(myBlob);
+    //     image = document.createElement('img');
+    //     image.src = objectURL;
+    //     document.body.appendChild(image);
+    // }).catch((error) => {
+    //     console.log('There has been a problem with your fetch operation: ' + error.message);
+    // }).finally(()=>{ console.log("this always runs")});
     
-//     console.log ('All done!');
+    // console.log ('All done!');
 
 
-//     // Making your own promises
-//     let timeoutPromise = new Promise((resolve, reject) => {
-//         setTimeout(() => {
-//             resolve('Success!');
-//         }, 2000);
-//     });
+    // // Making your own promises
+    // let timeoutPromise = new Promise((resolve, reject) => {
+    //     setTimeout(() => {
+    //         reject('failure!');
+    //     }, 2000);
+    // });
 
-//     timeoutPromise
-//     .then((message) => {
-//         alert(message);
-//     })
+    // timeoutPromise
+    // .then((message) => {
+    //     alert(message);
+    // }).catch((message) => {
+    //     alert(message);
+    // })
 
-//     timeoutPromise.then(alert)
-// });
+    // timeoutPromise.then(alert)
+});
 
 //********************Challenge************************
-// function printAll() {
-//     printString("A").then(() => {  
-//        return printString("B") 
-//     }).then(() => {  
-//        return printString("C") 
-//     })
+var gap = 4000 
+
+
+function printAll() {
+    printString("A").then(
+        printString("B")).then(
+            printString("C"))
+}
+
+printString = (input) => {
+    return new Promise((resolve, reject) => {
+      resolve = () => {
+        console.log(input);
+      }
+    })
+}
+
+printAll()
+
+// function printString(input){
+//     let printPromise = new Promise((resolve, reject) => {
+//         gap = gap - 1000
+//         setTimeout(() => {
+//             console.log(input);
+//         }, gap)
+//         resolve(input);
+//     });
+
+//     return printPromise;
 // }
-// printAll()
+
+// notebook
+
 //
 // // Write a printString promise such that "A", "B", 
-// // and "C" are printed out in that order with a 1 
-// // second gap between each printing. 
+// // and "C" are printed out in that order. 
 //*****************************************************
 
 ////****************

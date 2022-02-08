@@ -11,31 +11,35 @@
 ////************
 
 // //For each of these console.log's what will happen when they are called?
+// x = 0;
+// y = 0;
+// z = 0;
 // a = ()=>{
-//     var x = "wrong number who dis"
-//     var y = "hewwo"
 //     // console.log(x,y,z)
+//     var x = "a: wrong number who dis"
+//     y = "a: hewwo"
 //     b = ()=>{
-//         var x = "wassup man"
-//         var y = "hello"
-//         var z = "howdy"
-//         console.log(x,y,z)
+//         // console.log(x,y,z)
+//         let x = "b: wassup man"
+//         y = "b: hello"
+//         var z = "b: howdy"
 //         c = ()=>{
-//             var x = "wassup"
-//             var y = "hey"
+//             x = "c: wassup"
 //             // console.log(x,y,z)
+//             var y = "c: hey"
 //             d = ()=>{
-//                 var x = "sup"
-//                 // console.log(x,y,z)
+//                 x = "d: sup"
+//                 console.log(x,y,z)
 //             }
 //             d()
 //         }
 //         c()
+//         // console.log(x)
 //     }
 //     b()
 // }
 // a()
-
+// b()
 
 // //********************Challenge************************
 //What gets console.log'd out here and why.
@@ -70,7 +74,7 @@
 //// Closures
 ////*********
 // {
-//     x = "hello" //show what happens when you change to let
+//     let x = "hello" //show what happens when you change to let
 //     var sayHello = function(){
 //         console.log(x)
 //     }
@@ -79,26 +83,31 @@
 // sayHello()
 // console.log(x)
 
-// count = function(){
-//     counter = 0
-//     count = function(){
-//         return counter += 1
-//     }
-//     return counter
-// }
-// console.log(count())
-// console.log(count())
-// console.log(count())
-// console.log(count())
+var count = function(){
+    var counter = 0
+    count = function(){
+        return counter += 1
+    }
+    return counter
+}
+console.log(count())
+console.log(count())
+console.log(count())
+console.log(count())
 
 
-// {
-//     let counter = 0
-//     var count = ()=>{
-//         counter +=1
-//         return counter
-//     }
-// }
+count = function(){
+    console.log(counter)
+}
+
+
+{
+    let counter = 0
+    var count = ()=>{
+        counter +=1
+        return counter
+    }
+}
 
 ////***************************
 //// Map, Reduce, Filter, Every

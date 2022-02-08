@@ -61,6 +61,7 @@
 var k = 7
 {
     function getLength(myName){
+        var cart = input.cart
         myName = "Matty"
         console.log(myName)
         // a = 5

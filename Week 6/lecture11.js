@@ -1,5 +1,15 @@
+////*************************************************************************
+////*************************************************************************
+//// Lecture  11: Testing with Jest
+////*************************************************************************
+////*************************************************************************
+
+
+
 //Install Node: https://nodejs.org/en/download/
 //Install and connect JEST: $ npm i --global jest
+//create package.json and {NAME}.test.js 
+
 
 function add(x, y) {
     return x + y;
@@ -19,7 +29,12 @@ function getRandomToy() {
 }
 
 function getCartTotal(cart, discount=0){
-
+  var total = 0
+  for(const elem of cart){
+    total += elem.price * elem.qty
+    console.log(elem, elem.price, total)
+  }
+  return total * (1 - discount)
 }
 
 module.exports = { getRandomToy, add, getCartTotal };
