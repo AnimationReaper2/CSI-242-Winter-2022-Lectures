@@ -32,10 +32,9 @@ function getCartTotal(cart, discount=0){
   var total = 0
   for(const elem of cart){
     total += elem.price * elem.qty
-    console.log(elem, elem.price, total)
   }
   return total * (1 - discount)
 }
 
-module.exports = { getRandomToy, add, getCartTotal };
+module.exports = { getRandomToy, add, getCartTotal};
 

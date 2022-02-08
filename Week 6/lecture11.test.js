@@ -1,13 +1,13 @@
-var { getRandomToy, add, getCartTotal } = require("./lecture11");
+// var { getRandomToy, add, getCartTotal } = require("./lecture11");
 
 // ******
 // Expect
 // ******
 
-test("add should return sum", function () {
-    let sum = add(2, 3);
-    expect(sum).toEqual(5);
-});
+// test("add should return sum", function () {
+//     let sum = add(2, 3);
+//     expect(sum).toEqual(5);
+// });
 
 // describe("add function", function () {
 
@@ -66,38 +66,38 @@ test("add should return sum", function () {
 // Before and After Demo
 // getCartTotal(cart, discount=0)
 
-describe("getCartTotal", function () {
-    beforeAll(function() {
-        console.log("Run once before all tests");
-    });
+// describe("getCartTotal", function () {
+//     beforeAll(function() {
+//         console.log("Run once before all tests");
+//     });
     
-    let cart;
-    beforeEach(function () {
-        cart = [
-            { id: "le croix", price: 4, qty: 3 },
-            { id: "pretzels", price: 8, qty: 10 },
-        ];
-    });
-    test("total w/o discount", function () {
+//     let cart;
+//     beforeEach(function () {
+//         cart = [
+//             { id: "le croix", price: 4, qty: 3 },
+//             { id: "pretzels", price: 8, qty: 10 },
+//         ];
+//     });
+//     test("total w/o discount", function () {
 
-        const total = getCartTotal(cart);
-        expect(total).toEqual(92);
-    });
+//         const total = getCartTotal(cart);
+//         expect(total).toEqual(92);
+//     });
 
-    test("total w/discount", function () {
+//     test("total w/discount", function () {
 
-        const total = getCartTotal(cart, 0.5);
-        expect(total).toEqual(46);
-    });
+//         const total = getCartTotal(cart, 0.5);
+//         expect(total).toEqual(46);
+//     });
 
-    afterEach(function() {
-        console.log("Run after each test");
-    });
+//     afterEach(function() {
+//         console.log("Run after each test");
+//     });
     
-    afterAll(function() {
-        console.log("Run once after all tests");
-    });
-});
+//     afterAll(function() {
+//         console.log("Run once after all tests");
+//     });
+// });
 
 // Before / After
 // Jest gives us hooks we can tap into so
@@ -138,7 +138,7 @@ describe("getCartTotal", function () {
 // Reading/Writing to files
 // Impure functions like Math.random
 
-// test("check picking last", function () {
+// test("mocking random", function () {
 //     global.Math.random = jest.fn();
 //     global.Math.random.mockReturnValue(0.99);
 //     expect(getRandomToy().toy.name).toEqual("iPad");
