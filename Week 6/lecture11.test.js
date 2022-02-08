@@ -4,10 +4,10 @@
 // Expect
 // ******
 
-// test("add should return sum", function () {
-//     let sum = add(2, 3);
-//     expect(sum).toEqual(5);
-// });
+test("add should return sum", function () {
+    let sum = add(2, 3);
+    expect(sum).toEqual(5);
+});
 
 // describe("add function", function () {
 
@@ -19,9 +19,9 @@
 //     test("return sum w/neg numbers", function () {
 //         let sum = add(-2, 3);
 //         expect(sum).toEqual(1);
+//         expect({a:5, b:6}).toEqual({b:6, a:5});
 //     });
 // });
-
 
 // ********
 // Matchers
