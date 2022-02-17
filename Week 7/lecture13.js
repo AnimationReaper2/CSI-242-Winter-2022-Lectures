@@ -1,187 +1,292 @@
-////*****************
-////*****************
-//// Lecture  9: this
-////*****************
-////*****************
-
-////************************************
-//// The Mystery of the Undefined Fluffy
-////************************************
-
-// class Cat {
-//     constructor(firstName) {
-//         this.firstName = firstName;
-//     }
-    
-//     dance(style) {
-//         console.log(`Meow, I am ${this.firstName}` +
-//         ` and I like to ${style}`);
-//         return `Meow, I am ${this.firstName}` +
-//         ` and I like to ${style}`;
-//     }
-// }
-// let fluffy = new Cat("Fluffy");
-
-// fluffy.firstName;       // "Fluffy"
-// fluffy.dance("tango");  // works!
+////*************************************************************************
+////*************************************************************************
+//// Lecture  10: Asynchronous Javascript. Callbacks, Promises, Async, & Await
+////*************************************************************************
+////*************************************************************************
 
 
-// let fDance = fluffy.dance;
-// fDance("salsa"); //error???
-
-////********************************************
-//// Solving the Mystery: JavaScript "Functions"
-////********************************************
-// JS doesn't really have functions, everything is kinda a method
-
-// function whatIsThis() {
-//     console.log("this =", this);
-// }
-
-
-// let o = { myFunc: whatIsThis };
-// o.myFunc();  // get "this = o"
-
-// whatIsThis() // get "this" = window aka the global object
-
-// So what happened in the mystery is we called the dance method on nothing aka on the window object
-// This means that when in the dance function we were looking for window.firstName which doesn't exist
-
-// There are a few different solutions to this "this" problem
-// The obvious one is to only every call methods on objects
-// but because JS is hell and madness there are other ways too
-
-
-////***********************
-//// Call & Bind
-////***********************
-
-// let fDance = fluffy.dance;
-
-// // fDance.call(fluffy, "tango"); // call on fluffy, passing "tango" as arg
-// // whatIsThis.call(fluffy); 
-// // fDance("tango");       // error -- this isn't the cat
-
-// let betterDance = fDance.bind(fluffy);
-// betterDance("tango");  // ok -- bound so that `this` is Fluffy
-
-////***********************
-//// Bind for functions
-
-// function applySalesTax(taxRate, price) {
-//     console.log(this, taxRate, price)
-//     return price + price * taxRate;
-//   }
-  
-// // "null" for "this" means it doesn't matter what "this" is
-// const applyWASalesTax = applySalesTax.bind(null, 0.065);
-// console.log(applyWASalesTax(50));  //53.25
-
-// // This isn't exactly great though. As far as I can tell you can't bind later args while leaving initial args still available for input
-// // So we can't make an apply local sales tax to $50 function with bind
-// const applySalesTaxTo$50 = applySalesTax.bind(null, null, 50);
-// console.log(applySalesTaxTo$50("hi"))
-
-// And anyway default args are defined elsewhere so idk
-// function applySalesTaxTo$50(taxRate, price = 50) {
-//     console.log(this, taxRate, price)
-//     return price + price * taxRate;
-// }
-
-////*************************************
-//// Examples where this becomes relevant
-////*************************************
+////**********
+//// Callbacks
+////**********
 // window.addEventListener('load', (event) => {
-//     myBtn = document.querySelector('#main-button');
-//     myBtn.addEventListener("click", fluffy.dance);
-//     myBtn.addEventListener("click", fluffy.dance.bind(fluffy));
+
+//     // //// *********************
+//     // //// Synchronous Callbacks
+//     // //// *********************
+//         // function callbacker(callback){
+//         //     callback()
+//         // }
+//         //
+//         // callbacker(()=>{
+//         //     console.log("called back")
+//         // })
+
+//     // //// **************************
+//     // //// User Interaction Callbacks
+//     // //// **************************
+//     // const body = document.querySelector("body")
+//     // body.addEventListener("click", function(event){
+//     //     console.log('this happens after I click body');
+//     // });
+
+//     // //// *****************
+//     // //// Timeout Callbacks
+//     // //// *****************
+
+//     // setTimeout(function(){
+//     //     console.log('This happens after 1 second')
+//     // }, 1000)
+
+//     // //// *****************
+//     // //// Network Callbacks
+//     // //// *****************
+
+//     // $.get("coffee64.txt", function(data){
+//     //     document.querySelector(".result").setAttribute("src", "data:image/png;base64, "+data);
+//     // });
+
+
+//     // //// ***************
+//     // //// Combo Callbacks
+//     // //// ***************
+
+//     // const button = document.querySelector("button");
+//     // button.addEventListener("click", function(event){
+//     //     setTimeout(function(){
+//     //         $.get("coffee64.txt", function(data){
+//     //             const img = document.createElement("img");
+//     //             img.setAttribute("src","data:image/png;base64, "+data);
+//     //             document.body.appendChild(img);
+//     //         });
+//     //     }, 1000)
+//     // });
+
 // })
 
 
-// function popUp(msg) {
-//     console.log("Secret message is " + msg);
-// }
-  
-// function handleClick(evt) {
-//     let id = evt.target.id;
-  
-//     if (id === "a") popUp("Apple");
-//     else if (id === "b") popUp("Berry");
-//     else if (id === "c") popUp("Cherry");
-// }
-  
-// const get = document.getElementById.bind(document);
-  
-// window.addEventListener("load", ()=>{
-//     get('a').addEventListener("click", handleClick);
-//     get('b').addEventListener("click", handleClick);
-//     get('c').addEventListener("click", handleClick);
-// })
-
-// //Alternatively 
 
 
-// function popUp(msg) {
-//     console.log("Secret message is " + msg);
-// }
-  
-// const get = document.getElementById.bind(document);
+////*********
+//// Promises
+////*********
+// window.addEventListener('load', (event) => {
 
-// window.addEventListener("load", ()=>{
-//     get('a').addEventListener("click", popUp.bind(null, "Apple"));
-//     get('b').addEventListener("click", popUp.bind(null, "Berry"));
-//     get('c').addEventListener("click", popUp.bind(null, "Cherry"));
+//     //// ****************
+//     //// Timeout Promises
+//     //// ****************
+
+//     let oneSecondWait = new Promise((resolve) => {
+//         setTimeout(() => {
+//             console.log("sup")
+//             resolve('waited!');
+//         }, 1000);
+//     });
+
+//     //A promise like oneSecondWait here is an object
+//     //It's a "promise" of a future value
+//     //It can be in one of three states
+//     //Pending: it doesn't have that value yet
+//     console.log("osw:", oneSecondWait)
+//     //Resolved: it has gotten that value
+//     //Rejected: it failed to get it's value
+//     //If you take a pending promise and call .then 
+//     //JS puts an event listener out that is watching
+//     //for the promise to resolve. Once it resolves it
+//     //calls the callback passed to the .then on the
+//     //value the promise resolved to.
+
+//     // oneSecondWait
+//     // .then((resolution)=> {
+//     //     console.log(resolution);
+//     // });
+
+//     //If a .then's callback returns another Promise,
+//     //we can chain another .then onto the end of it
+//     //and it's callback will get called as soon as 
+//     //this second Promise is resolved
+
+//     oneSecondWait
+//     .then((resolution)=> {
+//         console.log(resolution);
+//         return oneSecondWait
+//     })
+//     .then((resolution)=> {
+//         console.log(resolution)
+//     });
+
+//     //This's slightly annoying though.
+//     //What happened here is that oneSecondWait is a
+//     //Promise object, and by the time we get into the 
+//     //first .then OSW is resolved, when you stick
+//     //a .then onto that resolved promise, the callback
+//     //get's called instantly on the resolved value
+//     //notice how "sup" only get's logged out once
+
+
+//     //Okay so if we want to do this we need to be able
+//     //to generate promises on demand
+
+//     // function oneSecondWaits(){ 
+//     //     return new Promise((resolve, reject) => {
+//     //         setTimeout(() => {
+//     //             resolve('waited on demand!'); 
+//     //         }, 1000);
+//     //     });
+//     // }
+
+//     // oneSecondWaits()
+//     // .then((resolution)=> {
+//     //     console.log(resolution);
+//     //     return oneSecondWaits()
+//     // })
+//     // .then((resolution)=> {
+//     //     console.log(resolution)
+//     // });
+
+//     // **********************
+//     // Network Event Promises
+//     // **********************
+
+
+//     // fetch('coffee.jpg').then((response) => {
+//     //     return response.blob(); //note this right here is a promise
+//     // })
+//     // .then((myBlob) => {
+//     //     let objectURL = URL.createObjectURL(myBlob);
+//     //     image = document.createElement('img');
+//     //     image.src = objectURL;
+//     //     document.body.appendChild(image);
+//     // })
+
+//     // ***********************
+//     // Final Notes on Promises
+//     // ***********************
+
+
+//     // I mislead you earlier, sorry
+//     // If a promise returns something besides
+//     // a promise you can chain .then's anyway
+//     // the callback just get's called immediately
+//     // interesting note, have this and the earlier OSW uncommented at the same time
+
+//     // oneSecondWait
+//     // .then((resolution)=> {
+//     //     console.log("a:", resolution);
+//     //     return "heeeeeey"
+//     // })
+//     // .then((resolution)=> {
+//     //     console.log(resolution)
+//     // });
+
+//     //.catch & .finally
+
+//     // fetch("https://www.garbage-doesn't-exist")
+//     // //fetch("./garbage-doesn't-exist")
+//     // .then((resolution)=>{
+//     //     console.log("garbage found", resolution)
+//     // })
+//     // .catch((error) => {
+//     //     console.log('There has been a problem with your fetch operation: ' + error.message);
+//     // })
+//     // .finally(()=>{
+//     //      console.log("this always runs")
+//     // });
+
 // });
 
+
 ////****************
-//// Arrow Functions
+//// Async and Await
 ////****************
-//// Arrow functions don’t make their own this
+window.addEventListener('load', (event) => {
+    //Asynchronous functions are basically promises with some bells and whistles
 
-// class Cat {
-//     constructor(name) {
-//         this.name = name;
-//     }
-  
-//     superGreet() {
-//         console.log(`#1: I am ${this.name}`);   // works, obvs
+    // async function hello() { return "Hello" };
+    // hello().then(value => console.log(value));
+
+
+    //the main bell is await, which lets you wait for an promise to resolve before moving on
+
+    //// ***********************
+    //// Timeout Async functions
+    //// ***********************
+
+    async function timeTest1() {
+        await timeoutPromise(1000);
+        await timeoutPromise(100);
+        await timeoutPromise(10);
+    }
     
-//         setTimeout(function () {
-//             console.log(`#2 I am ${this.name}`);  // ut oh
-//             // console.log(this === window)
-//             // it's because when the function is called it's being called on nothing aka window
-//         }, 500);
-    
-//         setTimeout(() => {
-//             console.log(`#3 I am ${this.name}`);  // yay!
-//             // arrow functions carry the "this" with them from whatever space they were defined in
-//         }, 1000);
-//     }
+    function timeoutPromise(interval) {
+        return new Promise((resolve, reject) => {
+            setTimeout(function(){
+                resolve("done");
+            }, interval);
+        });
+    };
+
+    let startTime = Date.now();
+    timeTest1()
+    .then(() => {
+        let finishTime = Date.now();
+        let timeTaken = finishTime - startTime;
+        console.log("sequential time: " + timeTaken+"ms");
+    })
+
+    async function timeTest2() {
+        const timeoutPromise1 = timeoutPromise(1000);
+        const timeoutPromise2 = timeoutPromise(100);
+        const timeoutPromise3 = timeoutPromise(10);
+        
+        await timeoutPromise1;
+        await timeoutPromise2;
+        await timeoutPromise3;
+    }
+
+    startTime = Date.now();
+    timeTest2()
+    .then(() => {
+        let finishTime = Date.now();
+        let timeTaken = finishTime - startTime;
+        console.log("paralel time: " + timeTaken+"ms");
+    })
+
+    //// ***********************
+    //// Network Async functions
+    //// ***********************
+
+    // async function myFetch() {
+    //     let response = await fetch('coffee.jpg');
+    //     // let response = await fetch('https://www.garbage..jpg');
+      
+    //     if (!response.ok) {
+    //       throw new Error(`HTTP error! status: ${response.status}`);
+    //     }
+      
+    //     let myBlob = await response.blob();
+      
+    //     let objectURL = URL.createObjectURL(myBlob);
+    //     let image = document.createElement('img');
+    //     image.src = objectURL;
+    //     document.body.appendChild(image);
+    //     console.log("myFetch success")
+    // }
+      
+    // myFetch()
+    // .catch(e => {
+    //     console.log('There has been a problem with your fetch operation: ' + e.message);
+    // });
+});
+
+//********************Challenge************************
+// function printAll() {
+//     await printString("A")  
+//     await printString("B") 
+//     await printString("C") 
 // }
-
-// let kitty = new Cat("Kitty");
-// kitty.superGreet();
-
-
-// thisArrow = ()=>{console.log("thisArrow:", this)}
-// {
-//     function hey(){
-//         console.log("hey",this)
-//         nestedArrow = ()=>{console.log("nestedArrow:", this)}
-//         thisArrow()
-//         nestedArrow()
-//     };
-//     hey.call({"hi":"hi"});
-// }
-// //Stressing here again arrow functions have this as the this in the environnement they were defined
-
-
-////**************
-//// Key Takeaways
-////**************
-/*  this is a reserved keyword whose value is determined 
-    only at the point of function execution.
-    If we aren’t calling a function ourselves and we’re 
-    letting JavaScript do that work for us (through a 
-    callback), we need to ensure JavaScript knows what 
-    our this context should be.*/
+// printAll()
+//
+// // Write an async printString function such 
+// // that "A", "B", and "C" are printed out in that 
+// // order with a 1 second gap between each printing. 
+//*****************************************************
