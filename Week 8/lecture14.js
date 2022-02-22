@@ -1,101 +1,151 @@
-////*****************
-////*****************
-//// Lecture  9: this
-////*****************
-////*****************
+////******************
+////******************
+//// Lecture  14: this
+////******************
+////******************
 
 ////************************************
-//// The Mystery of the Undefined Fluffy
+//// The Mystery of the Cat with no Name
 ////************************************
 
-// class Cat {
-//     constructor(firstName) {
-//         this.firstName = firstName;
-//     }
-    
-//     dance(style) {
-//         console.log(`Meow, I am ${this.firstName}` +
-//         ` and I like to ${style}`);
-//         return `Meow, I am ${this.firstName}` +
-//         ` and I like to ${style}`;
+// let cat = function(itsName){
+//     return {
+//         itsName: itsName,
+//         likesToEat: function(food){
+//             return `Meow, I am ${this.itsName}` +
+//             ` and I like to eat ${food}`;
+//         }
 //     }
 // }
-// let fluffy = new Cat("Fluffy");
 
-// fluffy.firstName;       // "Fluffy"
-// fluffy.dance("tango");  // works!
+// let wink = cat("Wink");
+// console.log(wink.likesToEat("Everything!"));
 
+// var wEats = wink.likesToEat;
+// console.log(wEats("fish")); // why did we forget Wink's name??
 
-// let fDance = fluffy.dance;
-// fDance("salsa"); //error???
 
 ////********************************************
 //// Solving the Mystery: JavaScript "Functions"
 ////********************************************
 // JS doesn't really have functions, everything is kinda a method
 
-// function whatIsThis() {
-//     console.log("this =", this);
-// }
+function whatIsThis() {
+    console.log("this is:", this);
+}
 
 
 // let o = { myFunc: whatIsThis };
 // o.myFunc();  // get "this = o"
 
 // whatIsThis() // get "this" = window aka the global object
+// Note: this will ALWAYS default to the window object for any function called on nothing. (1 exception with classes because JS is trash)
 
-// So what happened in the mystery is we called the dance method on nothing aka on the window object
-// This means that when in the dance function we were looking for window.firstName which doesn't exist
+// So what happened in the mystery is we called the likesToEat method on nothing,
+// Which called likesToEat on the window object which means doesn't have an itsName property
+
+// silly use case: can drop the window in window.addEvenListener
+
+addEventListener("load",()=>{console.log("loaded")});
+
+//terrible use case: can use "this" inside of functions to access global variables. Please don't :(
+
+////******************
+//// Classes are weird
+////******************
+
+class Cat {
+    constructor(itsName) {
+        this.itsName = itsName;
+    }
+    
+    likesToEat(food) {
+        console.log(`Meow, I am ${this.itsName}` +
+        ` and I like to eat ${food}`)
+        return `Meow, I am ${this.itsName}` +
+        ` and I like to eat ${food}`;
+    }
+}
+let wink = new Cat("Wink");
+
+console.log(wink.itsName);                    // "Wink"
+console.log(wink.likesToEat("everything"));  // works!
+
+
+// var wEats = wink.likesToEat;
+// console.log(wEats("fish"));                  //error? name of undefined? this means that "this" was undefined WHAT????
+
+
+// normally that would call it on the window object but even that doesn't happen here.
+// This is because JS is a terrible language and should be abolished.
+// What happened here is that we "lost out binding". 
+// When a function that comes from inside a class is called on nothing,
+// instead of being called on window it's called on undefined.
 
 // There are a few different solutions to this "this" problem
 // The obvious one is to only every call methods on objects
-// but because JS is hell and madness there are other ways too
-
+// but because JS is the worst there are other ways too
 
 ////***********************
 //// Call & Bind
 ////***********************
 
-// let fDance = fluffy.dance;
+// class Human {
+//     constructor(firstName, lastName){
+//         this.firstName = firstName;
+//         this.lastName = lastName;
+//         this.itsName = firstName + " " + lastName;
+//     }
+//     intro(){
+//         return `The name is ${this.lastName}, ${this.itsName}`
+//     }
+// }
 
-// // fDance.call(fluffy, "tango"); // call on fluffy, passing "tango" as arg
-// // whatIsThis.call(fluffy); 
-// // fDance("tango");       // error -- this isn't the cat
+// james = new Human("James", "Bond")
 
-// let betterDance = fDance.bind(fluffy);
-// betterDance("tango");  // ok -- bound so that `this` is Fluffy
+// let Eats = wink.likesToEat
+// console.log(Eats.call(james, "Martinis")); // call on james, passing "Martinis" as arg
+// whatIsThis.call(james); 
 
-////***********************
-//// Bind for functions
+// // There really aren't that many use cases for call. 
+
+// // console.log(wEats("fish"));       // error -- this isn't the cat
+
+
+
+// let betterEats = Eats.bind(wink);
+// console.log(betterEats("fish"));  // ok -- bound so that `this` is Wink always
+
+////***************************************
+//// Bind for functions allows binding args 
 
 // function applySalesTax(taxRate, price) {
-//     console.log(this, taxRate, price)
-//     return price + price * taxRate;
-//   }
-  
-// // "null" for "this" means it doesn't matter what "this" is
+//     console.log(this, taxRate, price);
+//     return price + (price * taxRate);
+// }
+// applySalesTax(0.09, 50)
+
 // const applyWASalesTax = applySalesTax.bind(null, 0.065);
 // console.log(applyWASalesTax(50));  //53.25
 
-// // This isn't exactly great though. As far as I can tell you can't bind later args while leaving initial args still available for input
-// // So we can't make an apply local sales tax to $50 function with bind
-// const applySalesTaxTo$50 = applySalesTax.bind(null, null, 50);
-// console.log(applySalesTaxTo$50("hi"))
+// console.log(applyWASalesTax(1, 50)) // 0.065 cause the is hard
 
-// And anyway default args are defined elsewhere so idk
-// function applySalesTaxTo$50(taxRate, price = 50) {
-//     console.log(this, taxRate, price)
-//     return price + price * taxRate;
-// }
+// // Note: this is only allowed in order.
 
-////*************************************
-//// Examples where this becomes relevant
-////*************************************
+// // Note 2: we bound to null here cause we weren't using "this" inside the function
+// // We could have bound to anything we wanted since it doesn't matter. 
+// // Meaning that null is the most expressive option here.
+
+
+////********************
+//// Using Bind/this IRL
+////********************
 // window.addEventListener('load', (event) => {
 //     myBtn = document.querySelector('#main-button');
-//     myBtn.addEventListener("click", fluffy.dance);
-//     myBtn.addEventListener("click", fluffy.dance.bind(fluffy));
+//     myBtn.addEventListener("click", wink.likesToEat);
+//     myBtn.addEventListener("click", wink.likesToEat.bind(wink));
 // })
+
 
 
 // function popUp(msg) {
@@ -118,7 +168,8 @@
 //     get('c').addEventListener("click", handleClick);
 // })
 
-// //Alternatively 
+////******************
+////Or, even more fun: 
 
 
 // function popUp(msg) {
@@ -136,52 +187,60 @@
 ////****************
 //// Arrow Functions
 ////****************
-//// Arrow functions don’t make their own this
+// Arrow functions have a totally separate "this" default
+// Normal functions default to having their "this" be window if not called on an object
+// Arrow functions default to having their "this" be whatever "this" was where they were defined
+// This behavior is more similar to the scoping rules where our parent frame is the frame we were defined in
 
-// class Cat {
+// class Greeter {
 //     constructor(name) {
 //         this.name = name;
 //     }
   
 //     superGreet() {
-//         console.log(`#1: I am ${this.name}`);   // works, obvs
+//         console.log(`#1: I am ${this.name}, welcome`);   // works, obvs
     
 //         setTimeout(function () {
-//             console.log(`#2 I am ${this.name}`);  // ut oh
+//             console.log(`#2 I am ${this.name}, welcome`);  // ut oh
 //             // console.log(this === window)
 //             // it's because when the function is called it's being called on nothing aka window
 //         }, 500);
     
 //         setTimeout(() => {
-//             console.log(`#3 I am ${this.name}`);  // yay!
+//             console.log(`#3 I am ${this.name}, welcome`);  // yay!
 //             // arrow functions carry the "this" with them from whatever space they were defined in
 //         }, 1000);
 //     }
 // }
 
-// let kitty = new Cat("Kitty");
-// kitty.superGreet();
+// let jake = new Greeter("Jake");
+// // jake.superGreet();
 
 
-// thisArrow = ()=>{console.log("thisArrow:", this)}
-// {
-//     function hey(){
-//         console.log("hey",this)
-//         nestedArrow = ()=>{console.log("nestedArrow:", this)}
-//         thisArrow()
-//         nestedArrow()
-//     };
-//     hey.call({"hi":"hi"});
-// }
-// //Stressing here again arrow functions have this as the this in the environnement they were defined
+// let windowArrow = ()=>{console.log("windowArrow's this:", this)}; //define an arrow function that shows it's this
+// windowArrow()
+
+// function hey(){
+//     console.log("hey's this:",this);
+//     nestedArrow = ()=>{console.log("nestedArrow's this:", this)};
+//     nestedArrow();
+//     windowArrow();
+// };
+// hey.call({"hi":"hi"});
+
+// // //Stressing here again arrow functions have this as the this in the environnement they were defined
+// //basically these are the same:
+// ()=>{}
+// function(){}.bind(this)
 
 
 ////**************
-//// Key Takeaways
+//// Takeaways
 ////**************
-/*  this is a reserved keyword whose value is determined 
-    only at the point of function execution.
-    If we aren’t calling a function ourselves and we’re 
-    letting JavaScript do that work for us (through a 
-    callback), we need to ensure JavaScript knows what 
-    our this context should be.*/
+// 1) 'this' is a pain
+// 2) 'this' refers to the object the method/function we're running has been called on
+// 3) because we will want to have functions called by methods, if those functions also use 'this'
+//    we need to be very careful about which this is being passed along
+// 4) the most common and best solution is arrow functions because they usually maintain the 'this' we want
+// 5) their 'this' behavior is the only difference between arrow functions and other anonymous functions
+// 6) bind can be pretty cool 
