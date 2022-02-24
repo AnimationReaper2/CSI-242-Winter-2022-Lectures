@@ -96,27 +96,27 @@
 // vanilla JS: .getAttribute(attrName) and .setAttribute(attrName, newValue)
 // JQuery: .attr(attrName, newValue) with (second param optional)
 
-addEventListener("load",()=>{
-    var $content = $("#content");
-    $content.attr("class", "main");
-    console.log($content.attr("class"));
-});
+// addEventListener("load",()=>{
+//     var $content = $("#content");
+//     $content.attr("class", "main");
+//     console.log($content.attr("class"));
+// });
 
 
-////******************
-//// Creating elements
-////******************
+// ////******************
+// //// Creating elements
+// ////******************
 
 
-addEventListener("load",()=>{
-    var $content = $("#content");
-    $content.append($("<p>").text("hello world"));
-});
+// addEventListener("load",()=>{
+//     var $content = $("#content");
+//     $content.append($("<p>").text("hello world"));
+// });
 
 
-////*****************
-//// Event Delegation
-////*****************
+// ////*****************
+// //// Event Delegation
+// ////*****************
 
 addEventListener("load",()=>{
     var $content = $("#content");
