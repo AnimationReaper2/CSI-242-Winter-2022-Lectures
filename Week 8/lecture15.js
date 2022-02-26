@@ -118,12 +118,12 @@
 // //// Event Delegation
 // ////*****************
 
-addEventListener("load",()=>{
-    var $content = $("#content");
-    $content.append($("<p>").addClass("meme").text("clickable"));
-    $("#content").on("click", ".meme", function(evt) {
-        console.log("hi")
-        evt.target.remove();
-    });
-});
+// addEventListener("load",()=>{
+//     var $content = $("#content");
+//     $content.append($("<p>").addClass("meme").text("clickable"));
+//     $("#content").on("click", ".meme", function(evt) {
+//         console.log("hi")
+//         evt.target.remove();
+//     });
+// });
   
