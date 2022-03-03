@@ -34,109 +34,150 @@ addEventListener("load",()=>{
            
     // V.S.
 
-    function App() {
-        return (
-        <div>
-            <button onClick={start} /* onClick Camel cased, start is variable */
-            onMouseOver={(event)=>{console.log(event.target)}}
-            > 
-                Start React
-            </button>
-        </div>
-        );
-    }
-    // reminder for React, don't call the function, just pass it like a variable
-    // <button onClick={start()}> no good
-
-    ReactDOM.render(<App />,
-        document.getElementById("root"));
-
-    //
-
-    //***************************************************************************
-    // Full list of Events: https://reactjs.org/docs/events.html#supported-events
-
-
-////**************
-//// State
-////**************
-
-// React Concepts introduced so far:
-// Component (i.e. a function)
-// Props (arguments to components) - const
-// Now State, data specific to a component, can change
-
-
-// What goes into States?
-// ex: a variable that decides whether to hide or show something
-// ex: Data fetched from an API
-// ex:for 2048, the current state of the board
-
-// For a piece of information, ask: will this ever change?
-// - if so? it should go in State
-
-// we initialize a state by calling useState on the initial value
-// ex: const [greeting, setGreeting] = useState("Hello my pal");
-// useState returns a variable and a setter-function
-// the two names can technically be anything, but varname and setVarname is conventional
-// this initialization will only be run on the first render
-
-// // Changing State on Timeout
-
-// function App() {
-//     console.log("app renders");
-//     const [greeting, setGreeting] = React.useState("Hello my pal");
-//     const [long, setLong] = React.useState(bigLongThing);
-//     setTimeout(
-//         ()=>{
-//             setGreeting("Hello my friend");
-//         },
-//         1000
-//     )
-//     return (
-//     <div>
-//         <p>
-//             {greeting}
-//         </p>
-//         <p>
-//             {long}
-//         </p>
-//     </div>
-//     );
-// }
-
-// function bigLongThing(){
-//     var a = 0
-//     var ret = ""
-//     while(a < 100){
-//         ret += a;
-//         a++;
+//     function App() {
+//         return (
+//         <div>
+//             <button onClick={start} /* onClick Camel cased, start is variable */
+//             onMouseOver={(event)=>{console.log(event.target)}}
+//             > 
+//                 Start React
+//             </button>
+//         </div>
+//         );
 //     }
-//     return ret;
-// }
+//     // reminder for React, don't call the function, just pass it like a variable
+//     // <button onClick={start()}> no good
+
+//     ReactDOM.render(<App />,
+//         document.getElementById("root"));
+
+//     //
+
+//     //***************************************************************************
+//     // Full list of Events: https://reactjs.org/docs/events.html#supported-events
 
 
-//Interesting thing here, the setGreeting both changed the state and re-rendered the component
+// ////**************
+// //// State
+// ////**************
+
+// // React Concepts introduced so far:
+// // Component (i.e. a function)
+// // Props (arguments to components) - const
+// // Now State, data specific to a component, can change
 
 
-// Changing State with user Input
+// // What goes into States?
+// // ex: a variable that decides whether to hide or show something
+// // ex: Data fetched from an API
+// // ex:for 2048, the current state of the board
+
+// // For a piece of information, ask: will this ever change?
+// // - if so? it should go in State
+
+// // we initialize a state by calling useState on the initial value
+// // ex: const [greeting, setGreeting] = useState("Hello my pal");
+// // useState returns a variable and a setter-function
+// // the two names can technically be anything, but varname and setVarname is conventional
+// // this initialization will only be run on the first render
+
+// // // Changing State on Timeout
+
+// // function App() {
+// //     console.log("app renders");
+// //     const [greeting, setGreeting] = React.useState("Hello my pal");
+// //     const [long, setLong] = React.useState(bigLongThing);
+// //     setTimeout(
+// //         ()=>{
+// //             setGreeting("Hello my friend");
+// //         },
+// //         1000
+// //     )
+// //     return (
+// //     <div>
+// //         <p>
+// //             {greeting}
+// //         </p>
+// //         <p>
+// //             {long}
+// //         </p>
+// //     </div>
+// //     );
+// // }
+
+// // function bigLongThing(){
+// //     var a = 0
+// //     var ret = ""
+// //     while(a < 100){
+// //         ret += a;
+// //         a++;
+// //     }
+// //     return ret;
+// // }
+
+
+// //Interesting thing here, the setGreeting both changed the state and re-rendered the component
+
+
+// // Changing State with user Input
+
+
+// // function App() {
+// //     console.log("app renders");
+// //     const [title, setTitle] = React.useState("pal");
+// //     const titles = ["pal", "friend", "dude", "colleague"]
+// //     return (
+// //     <div>
+// //         <p>
+// //             Hello my {title}
+// //         </p>
+// //         {titles.map(
+// //             (title, i)=>{
+// //                 console.log(title);
+// //                 return(
+// //                 <button key={title+":"+i} onClick={()=>{
+// //                     setTitle(title)
+// //                 }}>
+// //                     {title}
+// //                 </button>)}
+// //         )}
+// //     </div>
+// //     );
+// // }
+
+// // Props or State? [Checkers]
+// // number of players?
+// // position of a checker piece?
+// // colors of squares (like on the board)?
+// // score?
+// // names of the players?
+// // whether a piece is a king or not?
+
+
+// // **********************************
+// // Mutable states and reference types
 
 
 // function App() {
 //     console.log("app renders");
-//     const [title, setTitle] = React.useState("pal");
-//     const titles = ["pal", "friend", "dude", "colleague"]
+//     var [titles, setTitles] = React.useState(["pal", "friend", "dude", "colleague"]);
 //     return (
 //     <div>
 //         <p>
-//             Hello my {title}
+//             Hello my {titles[0]}
 //         </p>
 //         {titles.map(
 //             (title, i)=>{
-//                 console.log(title);
 //                 return(
-//                 <button key={title+":"+i} onClick={()=>{
-//                     setTitle(title)
+//                 <button key={title+""+i} onClick={()=>{
+//                     titles[0] = title;
+//                     // doesn't work
+//                     // setTitles(titles);
+//                     // still doesn't work
+//                     // What the heck???
+//                     // It's because titles is a reference type and the reference hasn't changed
+//                     // So setTitles thinks we haven't actually changed anything
+
 //                 }}>
 //                     {title}
 //                 </button>)}
@@ -145,102 +186,61 @@ addEventListener("load",()=>{
 //     );
 // }
 
-// Props or State? [Checkers]
-// number of players?
-// position of a checker piece?
-// colors of squares (like on the board)?
-// score?
-// names of the players?
-// whether a piece is a king or not?
+// // example with primitive type
 
+// function App() {
+//     console.log("app renders");
+//     var [title, setTitle] = React.useState("pal");
+//     return (
+//     <div>
+//         <p>
+//             Hello my {title}
+//         </p>
+//         <button key={title} onClick={()=>{
+//             title = "friend";
+//             // doesn't work;
+//             // setTitle(title);
+//             // now it works
+//         }}>
+//             {title}
+//         </button>
+//     </div>
+//     );
+// }
 
-// **********************************
-// Mutable states and reference types
+// // making this work with reference types
 
+// var a = 0;
+// function App() {
+//     console.log("app renders");
+//     var [titles, setTitles] = React.useState(["pal", "friend", "dude", "colleague"]);
+//     return (
+//     <div>
+//         <p>
+//             Hello my {titles[0]}
+//         </p>
+//         {titles.map(
+//             (title, i)=>{
+//                 return(
+//                 <button key={title+":"+i} onClick={()=>{
+//                     a++; //Note if you do this in React using essentially a global variable instead of a State
+//                     // your team lead would be pretty justified in firing you. Don't do this.
+//                     titles = [a, ...titles]; //have I introduced ...object yet?
+//                     // still doesn't work
+//                     // setTitles(titles);
+//                     // now this works
+//                 }}>
+//                     {title}
+//                 </button>)}
+//         )}
+//     </div>
+//     );
+// }
 
-function App() {
-    console.log("app renders");
-    var [titles, setTitles] = React.useState(["pal", "friend", "dude", "colleague"]);
-    return (
-    <div>
-        <p>
-            Hello my {titles[0]}
-        </p>
-        {titles.map(
-            (title, i)=>{
-                return(
-                <button key={title+""+i} onClick={()=>{
-                    titles[0] = title;
-                    // doesn't work
-                    // setTitles(titles);
-                    // still doesn't work
-                    // What the heck???
-                    // It's because titles is a reference type and the reference hasn't changed
-                    // So setTitles thinks we haven't actually changed anything
+// // Plot twist updating states is async kind of
 
-                }}>
-                    {title}
-                </button>)}
-        )}
-    </div>
-    );
-}
-
-// example with primitive type
-
-function App() {
-    console.log("app renders");
-    var [title, setTitle] = React.useState("pal");
-    return (
-    <div>
-        <p>
-            Hello my {title}
-        </p>
-        <button key={title} onClick={()=>{
-            title = "friend";
-            // doesn't work;
-            // setTitle(title);
-            // now it works
-        }}>
-            {title}
-        </button>
-    </div>
-    );
-}
-
-// making this work with reference types
-
-var a = 0;
-function App() {
-    console.log("app renders");
-    var [titles, setTitles] = React.useState(["pal", "friend", "dude", "colleague"]);
-    return (
-    <div>
-        <p>
-            Hello my {titles[0]}
-        </p>
-        {titles.map(
-            (title, i)=>{
-                return(
-                <button key={title+":"+i} onClick={()=>{
-                    a++; //Note if you do this in React using essentially a global variable instead of a State
-                    // your team lead would be pretty justified in firing you. Don't do this.
-                    titles = [a, ...titles]; //have I introduced ...object yet?
-                    // still doesn't work
-                    // setTitles(titles);
-                    // now this works
-                }}>
-                    {title}
-                </button>)}
-        )}
-    </div>
-    );
-}
-
-// Plot twist updating states is async kind of
-
-function App() {
-    const [num, setNum] = React.useState(0);
+// function App() {
+//     const [num, setNum] = React.useState(0);
   
     // function up1() { setNum(num + 1); }
     // function upN(n) {
@@ -272,69 +272,69 @@ function App() {
     
     // I'm gonna be honest, this is kinda dumb, idk it feels like a lot, and the documentation for this sucks
 
-    return (
-      <div>
-        <h3>Count: {num}</h3>
-        <button onClick={up1}>Up By 1</button>
-        <button onClick={()=>{upN(2)}}>Up By 2</button>
-      </div>
-    );
-  }
+//     return (
+//       <div>
+//         <h3>Count: {num}</h3>
+//         <button onClick={up1}>Up By 1</button>
+//         <button onClick={()=>{upN(2)}}>Up By 2</button>
+//       </div>
+//     );
+//   }
 
 
-  // More better mapping, rotating the state array
+//   // More better mapping, rotating the state array
 
-    function App() {
-        console.log("app renders");
-        var [titles, setTitles] = React.useState(["pal", "friend", "dude", "colleague"]);
-        return (
-        <div>
-            <p>
-                Hello my {titles[0]}
-            </p>
-            {titles.map(
-                (title)=>{
-                    return(
-                    <button key={title} onClick={(event)=>{
-                        var rot = titles.indexOf(event.target.innerHTML);
-                        titles = titles.map((val, i) => titles[(i + rot) % 4])
-                        setTitles(titles);
-                        console.log(titles)
-                        // now this works
-                    }}>
-                        {title}
-                    </button>)}
-            )}
-        </div>
-        );
-    }
+//     function App() {
+//         console.log("app renders");
+//         var [titles, setTitles] = React.useState(["pal", "friend", "dude", "colleague"]);
+//         return (
+//         <div>
+//             <p>
+//                 Hello my {titles[0]}
+//             </p>
+//             {titles.map(
+//                 (title)=>{
+//                     return(
+//                     <button key={title} onClick={(event)=>{
+//                         var rot = titles.indexOf(event.target.innerHTML);
+//                         titles = titles.map((val, i) => titles[(i + rot) % 4])
+//                         setTitles(titles);
+//                         console.log(titles)
+//                         // now this works
+//                     }}>
+//                         {title}
+//                     </button>)}
+//             )}
+//         </div>
+//         );
+//     }
 
-    // filtering
+//     // filtering
 
-    function App() {
-        console.log("app renders");
-        var [titles, setTitles] = React.useState(["pal", "friend", "dude", "colleague"]);
-        return (
-        <div>
-            <p>
-                Hello my {titles[0]}
-            </p>
-            {titles.map(
-                (title)=>{
-                    return(
-                    <button key={title} onClick={(event)=>{
-                        var lastChar = title.charAt(title.length - 1);
-                        titles = titles.filter((val) => val.charAt(val.length - 1) !== lastChar)
-                        setTitles(titles);
-                        console.log(titles)
-                        // now this works
-                    }}>
-                        {title}
-                    </button>)}
-            )}
-        </div>
-        );
-    }
+//     function App() {
+//         console.log("app renders");
+//         var [titles, setTitles] = React.useState(["pal", "friend", "dude", "colleague"]);
+//         return (
+//         <div>
+//             <p>
+//                 Hello my {titles[0]}
+//             </p>
+//             {titles.map(
+//                 (title)=>{
+//                     return(
+//                     <button key={title} onClick={(event)=>{
+//                         var lastChar = title.charAt(title.length - 1);
+//                         titles = titles.filter((val) => val.charAt(val.length - 1) !== lastChar)
+//                         setTitles(titles);
+//                         console.log(titles)
+//                         // now this works
+//                     }}>
+//                         {title}
+//                     </button>)}
+//             )}
+//         </div>
+//         );
+//     }
 
 
 
