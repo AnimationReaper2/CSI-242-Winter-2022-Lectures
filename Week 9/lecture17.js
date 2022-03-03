@@ -132,10 +132,10 @@ addEventListener("load",()=>{
 //             Hello my {title}
 //         </p>
 //         {titles.map(
-//             (title)=>{
+//             (title, i)=>{
 //                 console.log(title);
 //                 return(
-//                 <button key={title} onClick={()=>{
+//                 <button key={title+":"+i} onClick={()=>{
 //                     setTitle(title)
 //                 }}>
 //                     {title}
@@ -167,9 +167,9 @@ function App() {
             Hello my {titles[0]}
         </p>
         {titles.map(
-            (title)=>{
+            (title, i)=>{
                 return(
-                <button key={title} onClick={()=>{
+                <button key={title+""+i} onClick={()=>{
                     titles[0] = title;
                     // doesn't work
                     // setTitles(titles);
@@ -220,9 +220,9 @@ function App() {
             Hello my {titles[0]}
         </p>
         {titles.map(
-            (title)=>{
+            (title, i)=>{
                 return(
-                <button key={title} onClick={()=>{
+                <button key={title+":"+i} onClick={()=>{
                     a++; //Note if you do this in React using essentially a global variable instead of a State
                     // your team lead would be pretty justified in firing you. Don't do this.
                     titles = [a, ...titles]; //have I introduced ...object yet?
@@ -242,7 +242,7 @@ function App() {
 function App() {
     const [num, setNum] = React.useState(0);
   
-    function up1() { setNum(num + 1); }
+    // function up1() { setNum(num + 1); }
     // function upN(n) {
     //     var a = 0;
     //     while(a < n){
@@ -250,6 +250,7 @@ function App() {
     //         a++;
     //     }
     // }
+    // Doesn't work 
     // what happens here is that each seNum basically queue's up a update and rerender
     // but the second one get's queued up before the first one finishes
     // and has num as what ever it was when it got queued
@@ -261,13 +262,13 @@ function App() {
     // the callback function get's the current value of the State var
     // and so it has the most up to date one value and can update with that.
     
-    function upN(n) {
-        var a = 0;
-        while(a < n){
-            setNum((n)=>{return n+1});
-            a++;
-        }
-    }
+    // function upN(n) {
+    //     var a = 0;
+    //     while(a < n){
+    //         setNum((n)=>{return n+1});
+    //         a++;
+    //     }
+    // }
     
     // I'm gonna be honest, this is kinda dumb, idk it feels like a lot, and the documentation for this sucks
 
@@ -280,4 +281,63 @@ function App() {
     );
   }
 
+
+  // More better mapping, rotating the state array
+
+    function App() {
+        console.log("app renders");
+        var [titles, setTitles] = React.useState(["pal", "friend", "dude", "colleague"]);
+        return (
+        <div>
+            <p>
+                Hello my {titles[0]}
+            </p>
+            {titles.map(
+                (title)=>{
+                    return(
+                    <button key={title} onClick={(event)=>{
+                        var rot = titles.indexOf(event.target.innerHTML);
+                        titles = titles.map((val, i) => titles[(i + rot) % 4])
+                        setTitles(titles);
+                        console.log(titles)
+                        // now this works
+                    }}>
+                        {title}
+                    </button>)}
+            )}
+        </div>
+        );
+    }
+
+    // filtering
+
+    function App() {
+        console.log("app renders");
+        var [titles, setTitles] = React.useState(["pal", "friend", "dude", "colleague"]);
+        return (
+        <div>
+            <p>
+                Hello my {titles[0]}
+            </p>
+            {titles.map(
+                (title)=>{
+                    return(
+                    <button key={title} onClick={(event)=>{
+                        var lastChar = title.charAt(title.length - 1);
+                        titles = titles.filter((val) => val.charAt(val.length - 1) !== lastChar)
+                        setTitles(titles);
+                        console.log(titles)
+                        // now this works
+                    }}>
+                        {title}
+                    </button>)}
+            )}
+        </div>
+        );
+    }
+
+
+
+
 });
+
