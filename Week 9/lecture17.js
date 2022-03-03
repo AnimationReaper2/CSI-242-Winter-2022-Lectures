@@ -19,10 +19,10 @@
 
 addEventListener("load",()=>{
     
-    function start(){
-        console.log("start");
-    }
-    console.log("loaded");
+    // function start(){
+    //     console.log("start");
+    // }
+    // console.log("loaded");
 
     // $("body").append($(
     //     /* onclick lower cased, "start()" is a string 
@@ -48,8 +48,8 @@ addEventListener("load",()=>{
 //     // reminder for React, don't call the function, just pass it like a variable
 //     // <button onClick={start()}> no good
 
-//     ReactDOM.render(<App />,
-//         document.getElementById("root"));
+    ReactDOM.render(<App />,
+        document.getElementById("root"));
 
 //     //
 
@@ -83,37 +83,37 @@ addEventListener("load",()=>{
 
 // // // Changing State on Timeout
 
-// // function App() {
-// //     console.log("app renders");
-// //     const [greeting, setGreeting] = React.useState("Hello my pal");
-// //     const [long, setLong] = React.useState(bigLongThing);
-// //     setTimeout(
-// //         ()=>{
-// //             setGreeting("Hello my friend");
-// //         },
-// //         1000
-// //     )
-// //     return (
-// //     <div>
-// //         <p>
-// //             {greeting}
-// //         </p>
-// //         <p>
-// //             {long}
-// //         </p>
-// //     </div>
-// //     );
-// // }
+// function App() {
+//     console.log("app renders");
+//     const [greeting, setGreeting] = React.useState("Hello my pal");
+//     const [long, setLong] = React.useState(bigLongThing);
+//     setTimeout(
+//         ()=>{
+//             setGreeting("Hello my friend");
+//         },
+//         1000
+//     )
+//     return (
+//     <div>
+//         <p>
+//             {greeting}
+//         </p>
+//         <p>
+//             {long}
+//         </p>
+//     </div>
+//     );
+// }
 
-// // function bigLongThing(){
-// //     var a = 0
-// //     var ret = ""
-// //     while(a < 100){
-// //         ret += a;
-// //         a++;
-// //     }
-// //     return ret;
-// // }
+// function bigLongThing(){
+//     var a = 0
+//     var ret = ""
+//     while(a < 100){
+//         ret += a;
+//         a++;
+//     }
+//     return ret;
+// }
 
 
 // //Interesting thing here, the setGreeting both changed the state and re-rendered the component
@@ -122,28 +122,28 @@ addEventListener("load",()=>{
 // // Changing State with user Input
 
 
-// // function App() {
-// //     console.log("app renders");
-// //     const [title, setTitle] = React.useState("pal");
-// //     const titles = ["pal", "friend", "dude", "colleague"]
-// //     return (
-// //     <div>
-// //         <p>
-// //             Hello my {title}
-// //         </p>
-// //         {titles.map(
-// //             (title, i)=>{
-// //                 console.log(title);
-// //                 return(
-// //                 <button key={title+":"+i} onClick={()=>{
-// //                     setTitle(title)
-// //                 }}>
-// //                     {title}
-// //                 </button>)}
-// //         )}
-// //     </div>
-// //     );
-// // }
+function App() {
+    console.log("app renders");
+    const [title, setTitle] = React.useState("pal");
+    const titles = ["pal", "friend", "dude", "colleague"]
+    return (
+    <div>
+        <p>
+            Hello my {title}
+        </p>
+        {titles.map(
+            (title, i)=>{
+                // console.log(title);
+                return(
+                <button key={title+":"+i} onClick={()=>{
+                    setTitle(title)
+                }}>
+                    {title}
+                </button>)}
+        )}
+    </div>
+    );
+}
 
 // // Props or State? [Checkers]
 // // number of players?
