@@ -122,28 +122,28 @@ addEventListener("load",()=>{
 // // Changing State with user Input
 
 
-function App() {
-    console.log("app renders");
-    const [title, setTitle] = React.useState("pal");
-    const titles = ["pal", "friend", "dude", "colleague"]
-    return (
-    <div>
-        <p>
-            Hello my {title}
-        </p>
-        {titles.map(
-            (title, i)=>{
-                // console.log(title);
-                return(
-                <button key={title+":"+i} onClick={()=>{
-                    setTitle(title)
-                }}>
-                    {title}
-                </button>)}
-        )}
-    </div>
-    );
-}
+// function App() {
+//     console.log("app renders");
+//     const [title, setTitle] = React.useState("pal");
+//     const titles = ["pal", "friend", "dude", "colleague"]
+//     return (
+//     <div>
+//         <p>
+//             Hello my {title}
+//         </p>
+//         {titles.map(
+//             (title, i)=>{
+//                 // console.log(title);
+//                 return(
+//                 <button key={title+":"+i} onClick={()=>{
+//                     setTitle(title)
+//                 }}>
+//                     {title}
+//                 </button>)}
+//         )}
+//     </div>
+//     );
+// }
 
 // // Props or State? [Checkers]
 // // number of players?
