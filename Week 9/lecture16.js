@@ -6,7 +6,8 @@
 
 // function Hello() {
 //     var a = 5+7;
-//     return <p>Sup 5+7 is {a}</p>;
+//     return( <p>Sup 5+7 is {a}</p> );
+
 // }
   
 // ReactDOM.render(<Hello />,
@@ -42,10 +43,10 @@
 //         <Hello />
 //         <Hello />
 //       </div>
-//     );steam
+//     );
 //   }
 
-// leave this render un-commented for rest of lecture
+// // leave this render un-commented for rest of lecture
 ReactDOM.render(<App />,
     document.getElementById("root"));
 
@@ -63,14 +64,14 @@ ReactDOM.render(<App />,
 // function App() {
 //     return (
 //         <div>
-//             <Hello to="Alice" author="Bob" />
+//             <Hello to="5" author="Bob" />
 //             <Hello to="Bob" author="Alice" />
 //         </div>
 //     )
 // }
 
 // function Hello(props) {
-//     //props.to = "Alice"; //error
+//     // props.to = "Alice"; //error
 //     return (
 //         <div>
 //             <p>Secret Message: </p>
@@ -108,21 +109,23 @@ ReactDOM.render(<App />,
 //     )
 // }
 
-////********************
-//// Conditionals in JSX
-////********************
-
 // Notes on Properties
 /* 
     Function components can return one of:
         - a single valid DOM object
         - an array of DOM objects
+        - things that can easily turned into strings
         - null
     Nothing else is allowed
 
     But outside of the return, all the other things 
     you'd do in a JS function are cool
 */
+
+////********************
+//// Conditionals in JSX
+////********************
+
 
 // function Lottery({ winner }) {
 //     if (winner)
@@ -153,18 +156,18 @@ ReactDOM.render(<App />,
 //// Loops in JSX
 ////*************
 
-// function Messages({ msgs }) {
-//     return (
-//         <div>
-//             { msgs.map(m => <p key={m} >{m}</p>) }
-//         </div>
-//     );
-// }
+function Messages({ msgs }) {
+    return (
+        <div>
+            { msgs.map(m => <p key={m} >{m}</p>) }
+        </div>
+    );
+}
 
 // function Messages({ msgs }) {
 //     var ret = [];
 //     for (var msg of msgs){
-//         ret.push(<p key={msg} >{msg}</p>)
+//         ret.push(<p key={msg} >{msg}</p>);
 //     }
 //     return (
 //         <div>
@@ -178,7 +181,7 @@ ReactDOM.render(<App />,
 //         <div>
 //             <Messages msgs={["Hello world", "Hello to you too", "Uhhhh, I was not expecting a reply???"]}/>
 //         </div>
-//     )
+//     );
 // }
 
 ////*****************

@@ -18,11 +18,20 @@
 //     }
 // }
 
-// let wink = cat("Wink");
+// let wink = {
+//     itsName: "Wink",
+//     likesToEat: function(food){
+//         console.log("this is:", this);
+//         return `Meow, I am ${this.itsName}` +
+//         ` and I like to eat ${food}`;
+//     }};
+
+// console.log(wink.likesToEat("Everything!"));
 // console.log(wink.likesToEat("Everything!"));
 
-// var wEats = wink.likesToEat;
+// let wEats = wink.likesToEat;
 // console.log(wEats("fish")); // why did we forget Wink's name??
+
 
 
 ////********************************************
@@ -30,15 +39,16 @@
 ////********************************************
 // JS doesn't really have functions, everything is kinda a method
 
-function whatIsThis() {
-    console.log("this is:", this);
-}
-
-
-// let o = { myFunc: whatIsThis };
-// o.myFunc();  // get "this = o"
+// function whatIsThis() {
+//     console.log("this is:", this);
+// }
 
 // whatIsThis() // get "this" = window aka the global object
+
+
+// let o = { osWhatIsThis: whatIsThis };
+// o.osWhatIsThis();  // get "this = o"
+
 // Note: this will ALWAYS default to the window object for any function called on nothing. (1 exception with classes because JS is trash)
 
 // So what happened in the mystery is we called the likesToEat method on nothing,
@@ -46,30 +56,45 @@ function whatIsThis() {
 
 // silly use case: can drop the window in window.addEvenListener
 
-addEventListener("load",()=>{console.log("loaded")});
+// addEventListener("load",()=>{console.log("loaded")});
 
 //terrible use case: can use "this" inside of functions to access global variables. Please don't :(
+// z = {x:12}
+// x = 10
+// function a(){
+//     var x = 5
+//     function b(){
+//         function c(){
+//             console.log(this.x)
+//         }
+//         z.c = c;
+//         z.c();
+//     }
+//     b()
+// }
+// a()
 
 ////******************
 //// Classes are weird
 ////******************
 
-class Cat {
-    constructor(itsName) {
-        this.itsName = itsName;
-    }
+// class Cat {
+//     constructor(itsName) {
+//         this.itsName = itsName;
+//     }
     
-    likesToEat(food) {
-        console.log(`Meow, I am ${this.itsName}` +
-        ` and I like to eat ${food}`)
-        return `Meow, I am ${this.itsName}` +
-        ` and I like to eat ${food}`;
-    }
-}
-let wink = new Cat("Wink");
+//     likesToEat(food) {
+//         console.log(this)
+//         console.log(`Meow, I am ${this.itsName}` +
+//         ` and I like to eat ${food}`)
+//         return `Meow, I am ${this.itsName}` +
+//         ` and I like to eat ${food}`;
+//     }
+// }
+// let wink = new Cat("Wink");
 
-console.log(wink.itsName);                    // "Wink"
-console.log(wink.likesToEat("everything"));  // works!
+// console.log(wink.itsName);                    // "Wink"
+// console.log(wink.likesToEat("everything"));  // works!
 
 
 // var wEats = wink.likesToEat;
@@ -101,19 +126,19 @@ console.log(wink.likesToEat("everything"));  // works!
 //     }
 // }
 
-// james = new Human("James", "Bond")
+// let james = new Human("James", "Bond")
 
-// let Eats = wink.likesToEat
-// console.log(Eats.call(james, "Martinis")); // call on james, passing "Martinis" as arg
+// let wEats = wink.likesToEat;
+// console.log(wEats.call(james, "Martinis")); // call on james, passing "Martinis" as arg
 // whatIsThis.call(james); 
 
 // // There really aren't that many use cases for call. 
 
-// // console.log(wEats("fish"));       // error -- this isn't the cat
+// console.log(wEats("fish"));       // error -- this isn't the cat
 
 
 
-// let betterEats = Eats.bind(wink);
+// let betterEats = wEats.bind(wink);
 // console.log(betterEats("fish"));  // ok -- bound so that `this` is Wink always
 
 ////***************************************
@@ -192,6 +217,42 @@ console.log(wink.likesToEat("everything"));  // works!
 // Arrow functions default to having their "this" be whatever "this" was where they were defined
 // This behavior is more similar to the scoping rules where our parent frame is the frame we were defined in
 
+
+class Cat {
+    constructor(itsName) {
+        this.itsName = itsName;
+    }
+    
+    likesToEat(food) {
+        var a = ()=>{console.log("a:",this)};
+        var b = function(){console.log("b:", this)};
+        a();
+        b();
+        // console.log(this)
+        // console.log(`Meow, I am ${this.itsName}` +
+        // ` and I like to eat ${food}`)
+        // return `Meow, I am ${this.itsName}` +
+        // ` and I like to eat ${food}`;
+    }
+}
+let wink = new Cat("Wink");
+wink.likesToEat()
+
+
+let cat = function(itsName){
+    return {
+        itsName: itsName,
+        likesToCry: function likesToEat(food){
+            var a = ()=>{console.log("a:",this)};
+            var b = function(){console.log("b:", this)};
+            a();
+            b();
+        }
+    }
+}
+
+zorra = cat("zorra")
+zorra.likesToCry()
 // class Greeter {
 //     constructor(name) {
 //         this.name = name;
@@ -238,7 +299,7 @@ console.log(wink.likesToEat("everything"));  // works!
 //// Takeaways
 ////**************
 // 1) 'this' is a pain
-// 2) 'this' refers to the object the method/function we're running has been called on
+// 2) 'this' refers to the object the method/function we're running has been called on: hello.func() inside of func this = hello
 // 3) because we will want to have functions called by methods, if those functions also use 'this'
 //    we need to be very careful about which this is being passed along
 // 4) the most common and best solution is arrow functions because they usually maintain the 'this' we want
