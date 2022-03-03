@@ -1,27 +1,26 @@
-// var { getRandomToy, add, getCartTotal } = require("./lecture11");
+const { getRandomToy, add, getCartTotal } = require("./lecture11");
 
 // ******
 // Expect
 // ******
 
 // test("add should return sum", function () {
-//     let sum = add(2, 3);
+//     let sum = add(3, 3);
 //     expect(sum).toEqual(5);
 // });
 
-// describe("add function", function () {
+describe("add function", function () {
 
-//     test("return sum", function () {
-//         let sum = add(2, 3);
-//         expect(sum).toEqual(5);
-//     });
+    test("return sum", function () {
+        let sum = add(2, 3);
+        expect(sum).toEqual(5);
+    });
   
-//     test("return sum w/neg numbers", function () {
-//         let sum = add(-2, 3);
-//         expect(sum).toEqual(1);
-//     });
-// });
-
+    test("return sum w/neg numbers", function () {
+        let sum = add(-2, 3);
+        expect(sum).toEqual(1);
+    });
+});
 
 // ********
 // Matchers
@@ -41,10 +40,10 @@
 //     test("toBe and toEqual are different", function () {
 //       let nums = [1, 2, 3];
 //       let newNums = nums.slice();
-//       console.log(newNums)
   
 //       expect(nums).not.toBe(newNums);  // not the same reference!
 //       expect(nums).toEqual(newNums);   // same values so we use toEqual
+//       expect(nums).toContain(newNums[0])
 //     });
 //   });
 
@@ -73,6 +72,7 @@
     
 //     let cart;
 //     beforeEach(function () {
+//         console.log("Run before each test")
 //         cart = [
 //             { id: "le croix", price: 4, qty: 3 },
 //             { id: "pretzels", price: 8, qty: 10 },
@@ -138,8 +138,8 @@
 // Reading/Writing to files
 // Impure functions like Math.random
 
-// test("mocking random", function () {
-//     global.Math.random = jest.fn();
-//     global.Math.random.mockReturnValue(0.99);
-//     expect(getRandomToy().toy.name).toEqual("iPad");
-// });
+test("mocking random", function () {
+    global.Math.random = jest.fn();
+    global.Math.random.mockReturnValue(0.99);
+    expect(getRandomToy().toy.name).toEqual("iPad");
+});

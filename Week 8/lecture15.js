@@ -22,7 +22,8 @@
 ////**********
 
 // addEventListener("load",()=>{
-//     console.log($("h1"))
+//     // $("h1")
+//     console.log($("h1"));
 
 //     // works like querySelectorAll()
 //     // but is not quite the same thing as a list of DOM Elements, 
@@ -58,7 +59,7 @@
 //     // ideally without any duplicates from p tags with the same parent.
 //     // in vanilla JS we'd have to for loop and duplicate check ourselves. 
 //     // With JQuery it typically just works
-//     console.log($("p").parent());
+//     console.log($("div").parent());
 // });
 
 ////*********
@@ -96,22 +97,25 @@
 // vanilla JS: .getAttribute(attrName) and .setAttribute(attrName, newValue)
 // JQuery: .attr(attrName, newValue) with (second param optional)
 
-addEventListener("load",()=>{
-    var $content = $("#content");
-    $content.attr("class", "main");
-    console.log($content.attr("class"));
-});
+// addEventListener("load",()=>{
+//     var $content = $("#content");
+//     console.log($content.attr("class", "main").css("color", "blue"));
+//     console.log($content.attr("class"));
+// });
 
 
 ////******************
 //// Creating elements
 ////******************
 
-
-addEventListener("load",()=>{
-    var $content = $("#content");
-    $content.append($("<p>").text("hello world"));
-});
+// addEventListener("load",()=>{
+//     var $p = $("<p>");
+//     $p.attr("id","hi");
+//     $p.text("hi")
+//     var $content = $("#content");
+//     $content.append($p);
+//     $p.css("color","blue");
+// });
 
 
 ////*****************
@@ -120,10 +124,10 @@ addEventListener("load",()=>{
 
 addEventListener("load",()=>{
     var $content = $("#content");
-    $content.append($("<p>").addClass("meme").text("clickable"));
     $("#content").on("click", ".meme", function(evt) {
         console.log("hi")
         evt.target.remove();
     });
+    $content.append($("<p>").addClass("meme").text("clickable"));
 });
   

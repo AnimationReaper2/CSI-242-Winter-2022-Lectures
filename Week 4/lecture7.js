@@ -4,6 +4,8 @@
 ////**********************************************************************************************
 ////**********************************************************************************************
 
+
+console.log(Math.sqrt(9))
 ////*****************************
 //// Basic Variable decelerations
 ////*****************************
@@ -144,29 +146,35 @@
 ////***************************
 //// Map, Reduce, Filter, Every
 ////***************************
-// const numbers = [10, 5, 2, 1];
+const numbers = [9, 5, 2, 3, 1];
 // function myMapper(num) {
 //     return num * 10;
 // }
 // console.log(numbers.map(myMapper))
 
 // function myReducer(total, num) {
-//     // console.log("t,n:",total, num)
+//     console.log("t,n:",total, num)
 //     return total - num;
 // }
 
+
 // console.log(numbers.reduce(myReducer))
 
-// function myFilter(num){
-//     return num >= 3;
-// }
+function myFilter(num){
+    return num >= 3;
+}
 
 // console.log(numbers.filter(myFilter))
 
 // console.log(numbers.every(myFilter))
 
-// function myEvery(num){
-//     return num >= 0;
-// }
+function myEvery(num){
+    return num >= 0;
+}
 
+function existsPositives(arr){
+    return !arr.every(num => num <= 0)
+}
+
+console.log(existsPositives([-1,-2,4     ]))
 // console.log(numbers.every(myEvery))
