@@ -19,37 +19,37 @@
 
 addEventListener("load",()=>{
     
-    function start(){
-        console.log("start");
-    }
-    console.log("loaded");
+    // window.start = function(){
+    //     console.log("start");
+    // }
+    // console.log("loaded");
 
     // $("body").append($(
     //     /* onclick lower cased, "start()" is a string 
     //     also, why doesn't this start work (hint: scoping)*/
     //     `<button id ="hi" onclick="start()"> 
-    //     Start jQuery
+    //         Start jQuery
     //     </button>`
     // ));
            
-    // V.S.
+    // // V.S.
 
-//     function App() {
-//         return (
-//         <div>
-//             <button onClick={start} /* onClick Camel cased, start is variable */
-//             onMouseOver={(event)=>{console.log(event.target)}}
-//             > 
-//                 Start React
-//             </button>
-//         </div>
-//         );
-//     }
-//     // reminder for React, don't call the function, just pass it like a variable
-//     // <button onClick={start()}> no good
+    // function App() {
+    //     return (
+    //     <div>
+    //         <button onClick={start} /* onClick Camel cased, start is variable */
+    //         onMouseOver={(event)=>{console.log(event.target)}}
+    //         > 
+    //             Start React
+    //         </button>
+    //     </div>
+    //     );
+    // }
+    // reminder for React, don't call the function, just pass it like a variable
+    // <button onClick={start()}> no good
 
-//     ReactDOM.render(<App />,
-//         document.getElementById("root"));
+    ReactDOM.render(<App />,
+        document.getElementById("root"));
 
 //     //
 
@@ -70,7 +70,7 @@ addEventListener("load",()=>{
 // // What goes into States?
 // // ex: a variable that decides whether to hide or show something
 // // ex: Data fetched from an API
-// // ex:for 2048, the current state of the board
+// // ex: for 2048, the current state of the board
 
 // // For a piece of information, ask: will this ever change?
 // // - if so? it should go in State
@@ -83,37 +83,48 @@ addEventListener("load",()=>{
 
 // // // Changing State on Timeout
 
-// // function App() {
-// //     console.log("app renders");
-// //     const [greeting, setGreeting] = React.useState("Hello my pal");
-// //     const [long, setLong] = React.useState(bigLongThing);
-// //     setTimeout(
-// //         ()=>{
-// //             setGreeting("Hello my friend");
-// //         },
-// //         1000
-// //     )
-// //     return (
-// //     <div>
-// //         <p>
-// //             {greeting}
-// //         </p>
-// //         <p>
-// //             {long}
-// //         </p>
-// //     </div>
-// //     );
-// // }
 
-// // function bigLongThing(){
-// //     var a = 0
-// //     var ret = ""
-// //     while(a < 100){
-// //         ret += a;
-// //         a++;
-// //     }
-// //     return ret;
-// // }
+// function App() {
+//     function a(){
+//         setHovered(true);
+//     }
+//     function b(){
+//         setHovered(false);
+//     }
+//     console.log("app renders");
+//     const [greeting, setGreeting] = React.useState("Hello my pal");
+//     const [hovered, setHovered] = React.useState(false);
+//     const myStyles = {
+//         color: hovered ? "red" : "blue",
+//     };
+//     const [long, setLong] = React.useState(bigLongThing);
+//     setTimeout(
+//         ()=>{
+//             setGreeting("Hello my friend");
+//         },
+//         1000
+//     )
+//     return (
+//     <div>
+//         <p onMouseEnter={a} onMouseLeave={b} style={myStyles}>
+//             {greeting}
+//         </p>
+//         <p>
+//             {long}
+//         </p>
+//     </div>
+//     );
+// }
+
+// function bigLongThing(){
+//     var a = 0
+//     var ret = ""
+//     while(a < 100){
+//         ret += a;
+//         a++;
+//     }
+//     return ret;
+// }
 
 
 // //Interesting thing here, the setGreeting both changed the state and re-rendered the component
@@ -122,30 +133,63 @@ addEventListener("load",()=>{
 // // Changing State with user Input
 
 
-// // function App() {
-// //     console.log("app renders");
-// //     const [title, setTitle] = React.useState("pal");
-// //     const titles = ["pal", "friend", "dude", "colleague"]
-// //     return (
-// //     <div>
-// //         <p>
-// //             Hello my {title}
-// //         </p>
-// //         {titles.map(
-// //             (title, i)=>{
-// //                 console.log(title);
-// //                 return(
-// //                 <button key={title+":"+i} onClick={()=>{
-// //                     setTitle(title)
-// //                 }}>
-// //                     {title}
-// //                 </button>)}
-// //         )}
-// //     </div>
-// //     );
-// // }
+// function App() {
+//     console.log("app renders");
+//     const [title, setTitle] = React.useState("pal");
+//     const titles = ["pal", "friend", "dude", "colleague"]
+//     return (
+//     <div>
+//         <p>
+//             Hello my {title}
+//         </p>
+//         {titles.map(
+//             (val, i)=>{
+//                 console.log(val, i);
+//                 return <button 
+//                     key={i} 
+//                     onClick={()=>{
+//                        setTitle(val); 
+//                     }}
+//                 > 
+//                     {val} <p>Hi</p>
+//                 </button>
+//             }
+//         )}
+//     </div>
+//     );
+// }
 
-// // Props or State? [Checkers]
+function Child(props){
+    return(
+        <button onClick={() => {
+            var newVal = props.val.map((value, index)=>{
+                return index === props.i ? value +1 : value
+            })
+            props.setter(newVal);
+        }}>
+            {props.val[props.i]}
+        </button>
+
+    )
+}
+
+function App() {
+    var [ val, setVal] = React.useState([0,1])
+    return(
+        <div>
+            {val.map(
+                (num, i)=>{
+                    return(<Child key={i} setter={setVal} val={val} i={i} />)
+                }
+            )}
+        </div>
+    )
+
+}
+
+// A components props are constant and unchangable unless they depend on a parent's state, and that state changes.
+
+// // thumbs up for State thumbs down for prop? [Checkers]
 // // number of players?
 // // position of a checker piece?
 // // colors of squares (like on the board)?
@@ -158,55 +202,63 @@ addEventListener("load",()=>{
 // // Mutable states and reference types
 
 
-// function App() {
-//     console.log("app renders");
-//     var [titles, setTitles] = React.useState(["pal", "friend", "dude", "colleague"]);
-//     return (
-//     <div>
-//         <p>
-//             Hello my {titles[0]}
-//         </p>
-//         {titles.map(
-//             (title, i)=>{
-//                 return(
-//                 <button key={title+""+i} onClick={()=>{
-//                     titles[0] = title;
-//                     // doesn't work
-//                     // setTitles(titles);
-//                     // still doesn't work
-//                     // What the heck???
-//                     // It's because titles is a reference type and the reference hasn't changed
-//                     // So setTitles thinks we haven't actually changed anything
+//primitive types: var x = 1 ; y = "hello"
+//reference types: = var x = ["hello"] ; var x = {"hello": "hi"}
 
-//                 }}>
-//                     {title}
-//                 </button>)}
-//         )}
-//     </div>
-//     );
-// }
 
-// // example with primitive type
 
-// function App() {
-//     console.log("app renders");
-//     var [title, setTitle] = React.useState("pal");
-//     return (
-//     <div>
-//         <p>
-//             Hello my {title}
-//         </p>
-//         <button key={title} onClick={()=>{
-//             title = "friend";
-//             // doesn't work;
-//             // setTitle(title);
-//             // now it works
-//         }}>
-//             {title}
-//         </button>
-//     </div>
-//     );
-// }
+function App() {
+    console.log("app renders");
+    var [titles, setTitles] = React.useState(["pal", "friend", "dude", "colleague"]);
+    return (
+    <div>
+        <p>
+            Hello my {titles[0]}
+        </p>
+        {titles.map(
+            (title, i)=>{
+                return(
+                <button key={title+""+i} onClick={()=>{
+                    titles[0] = title;
+                    console.log(titles);
+                    // doesn't work
+                    setTitles(titles.map(val => val));
+                    // still doesn't work
+                    // What the heck???
+                    // It's because titles is a reference type and the reference hasn't changed
+                    // So setTitles thinks we haven't actually changed anything
+
+                }}>
+                    {title}
+                </button>)}
+        )}
+    </div>
+    );
+}
+
+
+// example with primitive type
+
+function App() {
+    console.log("app renders");
+    var [title, setTitle] = React.useState("pal");
+    return (
+    <div>
+        <p>
+            Hello my {title}
+        </p>
+        <button key={title} onClick={()=>{
+            title = "friend";
+            // doesn't work;
+            setTitle(title);
+            // now it works
+        }}>
+            friend
+        </button>
+    </div>
+    );
+}
+
 
 // // making this work with reference types
 
@@ -236,6 +288,8 @@ addEventListener("load",()=>{
 //     </div>
 //     );
 // }
+
+// END OF LECTURE
 
 // // Plot twist updating states is async kind of
 
