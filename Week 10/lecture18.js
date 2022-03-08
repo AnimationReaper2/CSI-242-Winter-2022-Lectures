@@ -2,7 +2,7 @@
 ////**********************************************************
 //// Lecture 18: React: wrapping up events, & Component Design
 ////**********************************************************
-////**********************************************************
+////**********************************************************bi
 
 console.log("hi");
 addEventListener("load",()=>{
@@ -13,18 +13,27 @@ addEventListener("load",()=>{
 // Async setState and setState Callbacks
 //**************************************
 
-    function App() {
-        const [num, setNum] = React.useState(0);
-    
-        function up1() { setNum(num + 1); }
-        function upN(n) {
-            var a = 0;
-            while(a < n){
-                setNum(num + 1);
-                a++;
-            }
-        }
-    }
+    // function App() {
+    //     const [num, setNum] = React.useState(0);
+        
+    //     function up1() { setNum(num + 1); }
+    //     function upN(n) {
+    //         var a = 0;
+    //         while(a < n){
+    //             setNum(num + 1);
+    //             a++;
+    //         }
+    //     }
+
+    //     return (
+    //         <div>
+    //             <h3>Count: {num}</h3>
+    //             <button onClick={up1}>Up By 1</button>
+    //             <button onClick={()=>{upN(2)}}>Up By 2</button>
+    //         </div>
+    //     );
+
+    // }
     // Doesn't work 
     // what happens here is that each setNum basically queue's up a update and rerender
     // but the second one get's queued up before the first one finishes
@@ -46,14 +55,6 @@ addEventListener("load",()=>{
     // }
     
     // I'm gonna be honest, this is kinda dumb, idk it feels like a lot, and the documentation for this sucks
-
-//     return (
-//       <div>
-//         <h3>Count: {num}</h3>
-//         <button onClick={up1}>Up By 1</button>
-//         <button onClick={()=>{upN(2)}}>Up By 2</button>
-//       </div>
-//     );
 //   }
 
 
@@ -177,76 +178,76 @@ addEventListener("load",()=>{
 // Component Design
 //*****************
 
-function sum(array){
-    var ret = 0;
-    for (let i = 0; i < array.length; i++) {
-        ret += array[i];
-    }
-    return ret;
-}
+// function sum(array){
+//     var ret = 0;
+//     for (let i = 0; i < array.length; i++) {
+//         ret += array[i];
+//     }
+//     return ret;
+// }
 
-function getRolls(numDice){
-    var ret = [];
-    for(var i = 1; i <= numDice; i++){
-        console.log("getRolls",i);
-        ret.push(Math.floor(Math.random() * (6) + 1));
-    }
-    return ret;
-}
+// function getRolls(numDice){
+//     var ret = [];
+//     for(var i = 1; i <= numDice; i++){
+//         console.log("getRolls",i);
+//         ret.push(Math.floor(Math.random() * (6) + 1));
+//     }
+//     return ret;
+// }
 
-function Die({ val }) {
-    var dieStyle = {
-        padding: "25px",  
-        backgroundColor: "tomato",  
-        width: "50px",  
-        height: "50px",  
-        borderRadius: "10%",
-        fontSize: "50px",
-        textAlign: "center",
-        color: "white",
-        margin: "2px"
-    }
-    return (
-        <div style={dieStyle} className="Die">
-            {val}
-        </div>
-    );
-}
+// function Die({ val }) {
+//     var dieStyle = {
+//         padding: "25px",  
+//         backgroundColor: "tomato",  
+//         width: "50px",  
+//         height: "50px",  
+//         borderRadius: "10%",
+//         fontSize: "50px",
+//         textAlign: "center",
+//         color: "white",
+//         margin: "2px"
+//     }
+//     return (
+//         <div style={dieStyle} className="Die">
+//             {val}
+//         </div>
+//     );
+// }
 
 
-function Dice({ dice }) {
-    return (
-        <section className="Dice">
-            {dice.map((v, i) =>
-                <Die key={i} val={v} />)}
-        </section>
-    );
-}
+// function Dice({ dice }) {
+//     return (
+//         <section className="Dice">
+//             {dice.map((v, i) =>
+//                 <Die key={i} val={v} />)}
+//         </section>
+//     );
+// }
 
-function LuckyN({ numDice, goal }) {
-    const [dice, setDice] = React.useState(getRolls(numDice));
-    const won = sum(dice) === goal;
+// function LuckyN({ numDice, goal }) {
+//     const [dice, setDice] = React.useState(getRolls(numDice));
+//     const won = sum(dice) === goal;
   
-    function roll() { setDice(getRolls(numDice)); }
+//     function roll() { setDice(getRolls(numDice)); }
   
-    return (
-        <main className="LuckyN">
-            <h1>Lucky{goal}: { won ? "You won!" : "You Lose"}</h1>
-            <Dice dice={dice} />
-            <button onClick={roll}>
-                Roll Again!
-            </button>
-        </main>
-    );
-}
+//     return (
+//         <main className="LuckyN">
+//             <h1>Lucky{goal}: { won ? "You won!" : "You Lose"}</h1>
+//             <Dice dice={dice} />
+//             <button onClick={roll}>
+//                 Roll Again!
+//             </button>
+//         </main>
+//     );
+// }
 
-function App() {
-    return (
-      <div className="App">
-        <LuckyN numDice={2} goal={7}/>
-      </div>
-    );
-}
+// function App() {
+//     return (
+//       <div className="App">
+//         <LuckyN numDice={2} goal={7}/>
+//       </div>
+//     );
+// }
 
 //Design Principles
 // * Lift state as high as needed but no higher *
@@ -270,173 +271,173 @@ function App() {
 //*****************************
 // Passing a function as a prop
 
-function LuckyN({ numDice, winCheck, goal }) {
-    const [dice, setDice] = React.useState(getRolls(numDice));
-    const won = winCheck(dice);
+// function LuckyN({ numDice, winCheck, goal }) {
+//     const [dice, setDice] = React.useState(getRolls(numDice));
+//     const won = winCheck(dice);
   
-    function roll() { setDice(getRolls(numDice)); }
+//     function roll() { setDice(getRolls(numDice)); }
   
-    return (
-        <main className="LuckyN">
-            <h1>Lucky {goal}: { won ? "You won!" : "You Lose"}</h1>
-            <Dice dice={dice} />
-            <button onClick={roll}>
-                Roll Again!
-            </button>
-        </main>
-    );
-}
+//     return (
+//         <main className="LuckyN">
+//             <h1>Lucky {goal}: { won ? "You won!" : "You Lose"}</h1>
+//             <Dice dice={dice} />
+//             <button onClick={roll}>
+//                 Roll Again!
+//             </button>
+//         </main>
+//     );
+// }
 
-function rolledEven(dice){
-    return (sum(dice) % 2) === 0;
-}
+// function rolledEven(dice){
+//     return (sum(dice) % 2) === 0;
+// }
 
-function App() {
-    return (
-      <div className="App">
-        <LuckyN 
-            numDice={2} 
-            winCheck={rolledEven} 
-            goal="even"
-        />
-      </div>
-    );
-}
+// function App() {
+//     return (
+//       <div className="App">
+//         <LuckyN 
+//             numDice={2} 
+//             winCheck={rolledEven} 
+//             goal="even"
+//         />
+//       </div>
+//     );
+// }
 
-// Having the button and the h1 inside LuckyN is kind of against our design principles
-// about separating Presentation and Logic, especially if we make either of those 
-// components look nice.
+// // Having the button and the h1 inside LuckyN is kind of against our design principles
+// // about separating Presentation and Logic, especially if we make either of those 
+// // components look nice.
 
-// Let's start with the button
+// // Let's start with the button
 
-function Button({ label, roll }) {
-    var buttonStyle = {
-        padding: "15px",  
-        backgroundColor: "black",  
-        borderRadius: "10%",
-        fontSize: "20px",
-        textAlign: "center",
-        color: "white",
-        margin: "2px",
-        borderColor: "gray",
-    }
-    return (
-        <button
-            style={buttonStyle}
-            className="ReRollButton"
-            onClick={roll}>
-            {label}
-        </button>
-    );
-}
+// function Button({ label, roll }) {
+//     var buttonStyle = {
+//         padding: "15px",  
+//         backgroundColor: "black",  
+//         borderRadius: "10%",
+//         fontSize: "20px",
+//         textAlign: "center",
+//         color: "white",
+//         margin: "2px",
+//         borderColor: "gray",
+//     }
+//     return (
+//         <button
+//             style={buttonStyle}
+//             className="ReRollButton"
+//             onClick={roll}>
+//             {label}
+//         </button>
+//     );
+// }
 
-function LuckyN({ numDice, winCheck, goal }) {
-    const [dice, setDice] = React.useState(getRolls(numDice));
-    const won = winCheck(dice);
+// function LuckyN({ numDice, winCheck, goal }) {
+//     const [dice, setDice] = React.useState(getRolls(numDice));
+//     const won = winCheck(dice);
   
-    function roll() { setDice(getRolls(numDice)); }
+//     function roll() { setDice(getRolls(numDice)); }
   
-    return (
-        <main className="LuckyN">
-            <h1>Lucky {goal}: { won ? "You won!" : "You Lose"}</h1>
-            <Dice dice={dice} />
-            <Button roll={roll} label="Roll Again!" />
-            {/* passing in the roll function here is great
-            because it allows the child component to modify State
-            but only to do so in exactly the way it's supposed to */}
-        </main>
-    );
-}
+//     return (
+//         <main className="LuckyN">
+//             <h1>Lucky {goal}: { won ? "You won!" : "You Lose"}</h1>
+//             <Dice dice={dice} />
+//             <Button roll={roll} label="Roll Again!" />
+//             {/* passing in the roll function here is great
+//             because it allows the child component to modify State
+//             but only to do so in exactly the way it's supposed to */}
+//         </main>
+//     );
+// }
 
-// Now let's work on the title real quick
+// // Now let's work on the title real quick
 
-function LuckyN({ numDice, winCheck, goal }) {
-    const [dice, setDice] = React.useState(getRolls(numDice));
-    function roll() { setDice(getRolls(numDice)); }
+// function LuckyN({ numDice, winCheck, goal }) {
+//     const [dice, setDice] = React.useState(getRolls(numDice));
+//     function roll() { setDice(getRolls(numDice)); }
   
-    return (
-        <main className="LuckyN">
-            <Title label={`Lucky ${goal}`} won={winCheck(dice)}/>
-            <Dice dice={dice} />
-            <Button roll={roll} label="Roll Again!" />
-            {/* This right here is beautiful and 
-            what React is supposed to look like */}
-        </main>
-    );
-}
+//     return (
+//         <main className="LuckyN">
+//             <Title label={`Lucky ${goal}`} won={winCheck(dice)}/>
+//             <Dice dice={dice} />
+//             <Button roll={roll} label="Roll Again!" />
+//             {/* This right here is beautiful and 
+//             what React is supposed to look like */}
+//         </main>
+//     );
+// }
 
-function Title({label, won}){
-    return(
-        <h1>
-            {label}: { won ? "You Won!" : "You Lose"}
-        </h1>
-    )
-}
+// function Title({label, won}){
+//     return(
+//         <h1>
+//             {label}: { won ? "You Won!" : "You Lose"}
+//         </h1>
+//     )
+// }
 
 //***************************
 // Re-Rolling individual Dice
 
-function d6(){
-    return Math.floor(Math.random() * (6) + 1);
-}
+// function d6(){
+//     return Math.floor(Math.random() * (6) + 1);
+// }
 
-function LuckyN({ numDice, winCheck, goal }) {
-    const [dice, setDice] = React.useState(getRolls(numDice));
-    function roll() { setDice(getRolls(numDice)); }
-    function reRoll(n) {
-        setDice(
-            dice => dice.map(
-                function (v, idx){
-                    return (idx === n) ? d6() : v
-                }
-            )
-        )
-    }
+// function LuckyN({ numDice, winCheck, goal }) {
+//     const [dice, setDice] = React.useState(getRolls(numDice));
+//     function roll() { setDice(getRolls(numDice)); }
+//     function reRoll(n) {
+//         setDice(
+//             dice => dice.map(
+//                 function (v, idx){
+//                     return (idx === n) ? d6() : v
+//                 }
+//             )
+//         )
+//     }
   
-    return (
-        <main className="LuckyN">
-            <Title label={`Lucky ${goal}`} won={winCheck(dice)}/>
-            <Dice dice={dice} reRoll={reRoll}/>
-            <Button roll={roll} label="Roll Again!" />
-        </main>
-    );
-}
+//     return (
+//         <main className="LuckyN">
+//             <Title label={`Lucky ${goal}`} won={winCheck(dice)}/>
+//             <Dice dice={dice} reRoll={reRoll}/>
+//             <Button roll={roll} label="Roll Again!" />
+//         </main>
+//     );
+// }
 
-function Die({ val, reRoll, i }) {
-    var dieStyle = {
-        padding: "25px",  
-        backgroundColor: "tomato",  
-        width: "50px",  
-        height: "50px",  
-        borderRadius: "10%",
-        fontSize: "50px",
-        textAlign: "center",
-        color: "white",
-        margin: "2px"
-    }
-    function roll(){
-        reRoll(i);
-    }
-    return (
-        <div 
-            style={dieStyle} 
-            className="Die"
-            onClick={roll}
-        >
-            {val}
-        </div>
-    );
-}
+// function Die({ val, reRoll, i }) {
+//     var dieStyle = {
+//         padding: "25px",  
+//         backgroundColor: "tomato",  
+//         width: "50px",  
+//         height: "50px",  
+//         borderRadius: "10%",
+//         fontSize: "50px",
+//         textAlign: "center",
+//         color: "white",
+//         margin: "2px"
+//     }
+//     function roll(){
+//         reRoll(i);
+//     }
+//     return (
+//         <div 
+//             style={dieStyle} 
+//             className="Die"
+//             onClick={roll}
+//         >
+//             {val}
+//         </div>
+//     );
+// }
 
 
-function Dice({ dice, reRoll}) {
-    return (
-        <section className="Dice">
-            {dice.map((v, i) =>
-                <Die key={i} val={v} reRoll={reRoll} i={i}/>)}
-        </section>
-    );
-}
+// function Dice({ dice, reRoll}) {
+//     return (
+//         <section className="Dice">
+//             {dice.map((v, i) =>
+//                 <Die key={i} val={v} reRoll={reRoll} i={i}/>)}
+//         </section>
+//     );
+// }
 
 // How data flows in React:
 
