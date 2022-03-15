@@ -1,6 +1,6 @@
 ////**********************************************************
 ////**********************************************************
-//// Lecture 19: Component Design
+//// Lecture 20: Component Design 2
 ////**********************************************************
 ////**********************************************************
 
@@ -9,115 +9,120 @@ addEventListener("load",()=>{
     ReactDOM.render(<App />,
         document.getElementById("root"));
 
-//*****************
-// Component Design
-//*****************
+// //*****************
+// // Component Design
+// //*****************
 
-function sum(array){
-    var ret = 0;
-    for (let i = 0; i < array.length; i++) {
-        ret += array[i];
-    }
-    return ret;
-}
+// function sum(array){
+//     var ret = 0;
+//     for (let i = 0; i < array.length; i++) {
+//         ret += array[i];
+//     }
+//     return ret;
+// }
 
-function getRolls(numDice){
-    //returns an array of random numbers between 1 and 6 that is numDice long
-    var ret = [];
-    for(var i = 1; i <= numDice; i++){
-        console.log("getRolls",i);
-        ret.push(Math.floor(Math.random() * (6) + 1));
-    }
-    return ret;
-}
+// function getRolls(numDice){
+//     //returns an array of random numbers between 1 and 6 that is numDice long
+//     var ret = [];
+//     for(var i = 1; i <= numDice; i++){
+//         console.log("getRolls",i);
+//         ret.push(Math.floor(Math.random() * (6) + 1));
+//     }
+//     return ret;
+// }
 
-function Die({ val }) {
-    var dieStyle = {
-        padding: "25px",  
-        backgroundColor: "tomato",  
-        width: "50px",  
-        height: "50px",  
-        borderRadius: "10%",
-        fontSize: "50px",
-        textAlign: "center",
-        color: "white",
-        margin: "2px"
-    }
-    return (
-        <div style={dieStyle} className="Die">
-            {val}
-        </div>
-    );
-}
-
-
-function Dice({ dice }) {
-    return (
-        <div className="Dice">
-            {
-            dice.map(
-                (val, i) => {
-                    return <Die key={i} val={val} />
-                }
-            )
-            }
-        </div>
-    );
-}
+// function Die({ val }) {
+//     var dieStyle = {
+//         padding: "25px",  
+//         backgroundColor: "tomato",  
+//         width: "50px",  
+//         height: "50px",  
+//         borderRadius: "10%",
+//         fontSize: "50px",
+//         textAlign: "center",
+//         color: "white",
+//         margin: "2px"
+//     }
+//     return (
+//         <div style={dieStyle} className="Die">
+//             {val}
+//         </div>
+//     );
+// }
 
 
-
-function LuckyN({ numDice, goal }) {
-
-
-//     // var [val, setVal] = React.useState(7); // initialize the state variable, which we only want to do the first time
-//     // // var valStateArray = React.useState(7);
-//     // // var val = valStateArray[0];
-//     // // var setVal = valStateArray[1];
-//     // console.log(val);
-//     // // if(val !== 12){
-//     // setVal(12); // asyncronous, setTimeout(setVal(12), 0)
-//     // // }
-//     // console.log(val);
-//     // return(
-//     //     <p>hi</p>
-//     // );
+// function Dice({ dice }) {
+//     return (
+//         <div className="Dice">
+//             {
+//             dice.map(
+//                 (val, i) => {
+//                     return <Die key={i} val={val} />
+//                 }
+//             )
+//             }
+//         </div>
+//     );
+// }
 
 
-    const [dice, setDice] = React.useState(getRolls(numDice));
-    const won = sum(dice) === goal;
+
+// function LuckyN({ numDice, goal }) {
+
+
+// //     // var [val, setVal] = React.useState(7); // initialize the state variable, which we only want to do the first time
+// //     // // var valStateArray = React.useState(7);
+// //     // // var val = valStateArray[0];
+// //     // // var setVal = valStateArray[1];
+// //     // console.log(val);
+// //     // // if(val !== 12){
+// //     // setVal(12); // asyncronous, setTimeout(setVal(12), 0)
+// //     // // }
+// //     // console.log(val);
+// //     // return(
+// //     //     <p>hi</p>
+// //     // );
+
+
+//     const [dice, setDice] = React.useState(getRolls(numDice));
+//     const won = sum(dice) === goal;
   
-    function roll() { setDice(getRolls(numDice)); }
+//     function roll() { setDice(getRolls(numDice)); }
   
-    return (
-        <main className="LuckyN">
-            <h1>Lucky{goal}: { won ? "You won!" : "You Lose"}</h1>
-            <Dice dice={dice} />
-            <button onClick={roll}>
-                Roll Again!
-            </button>
-        </main>
-    );
-}
+//     return (
+//         <main className="LuckyN">
+//             <h1>Lucky{goal}: { won ? "You won!" : "You Lose"}</h1>
+//             <Dice dice={dice} />
+//             <button onClick={roll}>
+//                 Roll Again!
+//             </button>
+//         </main>
+//     );
+// }
 
-function App() {
-    // var [dice, setDice] = React.useState(getRolls(2));
-    // var won = (sum(dice) === 7);
-    return (
-      <div className="App">
-          {/* <h1>Lucky7: You {won ? "Won" : "Lost"}</h1>
-          <Dice dice={dice} />
-          <button onClick={
-                function(){
-                    dice = setDice(getRolls(2));
-                }
-          }>
-              Roll Again!
-          </button> */}
-        <LuckyN numDice={3} goal={10}/>
-      </div>
-    );
-}
+// function App() {
+//     // var [dice, setDice] = React.useState(getRolls(2));
+//     // var won = (sum(dice) === 7);
+//     return (
+//       <div className="App">
+//           {/* <h1>Lucky7: You {won ? "Won" : "Lost"}</h1>
+//           <Dice dice={dice} />
+//           <button onClick={
+//                 function(){
+//                     dice = setDice(getRolls(2));
+//                 }
+//           }>
+//               Roll Again!
+//           </button> */}
+//         <LuckyN numDice={3} goal={10}/>
+//       </div>
+//     );
+// }
+
+
+//***********
+// Start Here
+//***********
 
 //Design Principles
 // * Lift state as high as needed but no higher *
@@ -136,6 +141,7 @@ function App() {
 //   should be in their own utils.js file
 //   - One reason for that is that once they are in their own file they can be unit tested
 //   - And then mocked for our testing of the components
+
 
 
 //*****************************
