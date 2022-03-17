@@ -4,7 +4,6 @@
 ////**********************************************************
 ////**********************************************************
 
-console.log("hi");
 addEventListener("load",()=>{
     ReactDOM.render(<App />,
         document.getElementById("root"));
@@ -25,7 +24,7 @@ function getRolls(numDice){
     //returns an array of random numbers between 1 and 6 that is numDice long
     var ret = [];
     for(var i = 1; i <= numDice; i++){
-        console.log("getRolls",i);
+        // console.log("getRolls",i);
         ret.push(Math.floor(Math.random() * (6) + 1));
     }
     return ret;
@@ -120,6 +119,7 @@ function Dice({ dice }) {
 // }
 
 
+
 //***********
 // Start Here
 //***********
@@ -169,7 +169,8 @@ function rolledEven(dice){
 }
 
 function yahtzee(dice){
-    for(var i = 1; i < dice.length; i++){
+    var ret = true;
+    for(var i = 1; i < dice.length; i++ ){
         if(dice[i] !== dice[0]){
             ret = false;
         }
@@ -182,8 +183,9 @@ function App() {
       <div className="App">
         <LuckyN 
             numDice={5} 
-            winCheck={rolledEven} 
+            winCheck={yahtzee} 
             goal="yahtzee"
+            reRolling={true}
         />
       </div>
     );
@@ -220,7 +222,7 @@ function LuckyN({ numDice, winCheck, goal }) {
     const won = winCheck(dice);
   
     function roll() { setDice(getRolls(numDice)); }
-  
+    console.log(roll);
     return (
         <main className="LuckyN">
             <h1>Lucky {goal}: { won ? "You won!" : "You Lose"}</h1>
@@ -232,6 +234,10 @@ function LuckyN({ numDice, winCheck, goal }) {
         </main>
     );
 }
+
+// function a(){console.log(1)}
+// function a(){console.log(2)}
+// a();
 
 // // Now let's work on the title real quick
 
@@ -265,17 +271,20 @@ function d6(){
     return Math.floor(Math.random() * (6) + 1);
 }
 
-function LuckyN({ numDice, winCheck, goal }) {
+function LuckyN({ numDice, winCheck, goal, reRolling }) {
     const [dice, setDice] = React.useState(getRolls(numDice));
     function roll() { setDice(getRolls(numDice)); }
+
     function reRoll(n) {
-        setDice(
+        if(reRolling){
+            setDice(
             dice => dice.map(
                 function (v, idx){
-                    return (idx === n) ? d6() : v
+                    return (idx === n) ? d6() : v;
                 }
             )
-        )
+            )
+        }
     }
   
     return (
@@ -351,7 +360,7 @@ function Dice({ dice, reRoll}) {
 //   - Generally logical components will have more for loops, helper functions,
 //     computation, and state associated with them. They often also will have 
 //     several different component children.
-// * Generally you want to have useState and wrapper functions for seState
+// * Generally you want to have useState and wrapper functions for setState
 //   defined in a logical component and then passed down those wrapper functions 
 //   into their child/presentational components as props.
 // * try to minimize the amount of stuff you are storing in State
